@@ -12,7 +12,7 @@ rust-version = "1.88"
 
 [workspace.dependencies]
 calamine = { version = "0.38", features = ["dates"] }
-duckdb = { version = "1.20000.2", features = ["bundled"] }
+duckdb = { version = "1.20000.2", features = ["bundled", "parquet"] }  # parquet enlazada: sin descargas (Plan 9)
 chrono = { version = "0.4", default-features = false, features = ["std", "serde"] }
 serde = { version = "1", features = ["derive"] }
 serde-saphyr = "2.1"

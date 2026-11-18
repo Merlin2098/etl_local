@@ -113,6 +113,13 @@ impl Almacen {
     /// Base en memoria con la macro `normalizar(x)`.
     pub fn nuevo() -> Result<Almacen, ErrorProceso> {
         let conexion = Connection::open_in_memory().map_err(error("abrir DuckDB"))?;
+        // Nada de internet (Plan 9): `parquet` va enlazada en el binario (feature del crate duckdb) y DuckDB
+        // no puede instalar ni cargar extensiones por su cuenta.
+        conexion
+            .execute_batch(
+                "SET autoinstall_known_extensions = false; SET autoload_known_extensions = false;",
+            )
+            .map_err(error("desactivar la descarga de extensiones de DuckDB"))?;
         conexion
             .execute_batch(MACRO_NORMALIZAR)
             .map_err(error("crear la macro normalizar"))?;
