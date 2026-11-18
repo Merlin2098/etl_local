@@ -42,6 +42,9 @@ Una app de escritorio que guía el proceso en cuatro pasos:
 Nada sale de la PC: no hay servidor externo, cuentas ni telemetría. El tablero lo sirve una API local
 de solo lectura en `127.0.0.1`.
 
+> La app viene configurada para un caso concreto y sus Excel de ejemplo. Para usarla con tus propios
+> archivos hay que adaptar la configuración: ver [Adaptarlo a tus datos](#adaptarlo-a-tus-datos).
+
 ## Arquitectura
 
 ```mermaid
@@ -82,21 +85,105 @@ flowchart LR
 | Datos de ejemplo y pruebas de paridad | Python con uv |
 | CI y releases | GitHub Actions con `tauri-apps/tauri-action` |
 
-## Probarlo
+## Probarlo con datos de prueba
+
+La app viene configurada para los Excel de ejemplo del repositorio. Con ellos puedes recorrer todo el
+flujo sin tocar datos reales.
+
+### 1. Instalar
 
 1. Descarga el instalador (`.msi` o `-setup.exe`) del
    [último release](https://github.com/Merlin2098/etl_local/releases/latest).
 2. El instalador no está firmado, así que Windows SmartScreen puede mostrar «Windows protegió su PC».
    Elige **Más información → Ejecutar de todas formas**.
-3. Para tener Excel de ejemplo, usa los que vienen en el repositorio,
-   [crates/core/tests/fixtures/demo/limpio/](crates/core/tests/fixtures/demo/limpio/), o genera los tuyos:
 
-   ```sh
-   uv run --project demo generar-demo --semilla 42 --modo limpio
-   ```
+### 2. Conseguir los Excel de ejemplo
 
-   Son datos **sintéticos**: personas, documentos y montos inventados. El modo `sucio` y los casos de
-   [demo/README.md](demo/README.md) traen errores a propósito, para ver los avisos de la revisión.
+Son datos **sintéticos**: personas, documentos y montos inventados. Hay dos formas de tenerlos:
+
+- **Sin instalar nada más:** descarga el repositorio (**Code → Download ZIP**) y usa la carpeta
+  [crates/core/tests/fixtures/demo/limpio/](crates/core/tests/fixtures/demo/limpio/). Tiene una carpeta
+  por reporte:
+
+  | Carpeta | Reporte en la app | Archivos |
+  |---|---|---|
+  | `planilla/` y `planilla/licencias/` | Planilla mensual | tres meses de planilla y el control de licencias |
+  | `base_personal/` | Base de personal | un corte de la base |
+  | `planilla_regimen_especial/` | Planilla régimen especial | tres meses |
+  | `altas_personal/` | Altas de personal | tres meses |
+  | `practicantes/` | Control de practicantes | un corte |
+  | `examenes_salida/` | Control de exámenes médicos de salida | un archivo |
+
+- **Generándolos** con otra semilla o con más personas (requiere [uv](https://docs.astral.sh/uv/)):
+
+  ```sh
+  uv run --project demo generar-demo --semilla 42 --modo limpio   # queda en demo/generated/limpio/
+  ```
+
+  Las opciones están en [demo/README.md](demo/README.md).
+
+### 3. Recorrer el flujo
+
+1. Abre la app y elige un reporte, por ejemplo **Planilla mensual**.
+2. Arrastra los Excel de su carpeta o usa **Buscar en mi computadora**. Para la planilla, los tres
+   meses y el control de licencias.
+3. Revisa los avisos y procesa.
+4. En la pantalla final, **Ver el tablero** abre los indicadores y **Abrir en Excel** abre el Excel de
+   revisión. Los resultados (Parquet, Excel de revisión y controles) quedan en
+   `Documentos\Reportes RR. HH.`.
+5. Repite con **Base de personal**: varios indicadores del tablero (edad de jubilación, contratos por
+   superar su plazo) la necesitan.
+
+### 4. Ver cómo avisa los errores
+
+- [crates/core/tests/fixtures/demo/casos/](crates/core/tests/fixtures/demo/casos/) tiene un archivo
+  roto por carpeta: la cabecera movida una fila, una hoja renombrada, una columna que falta o un nombre
+  de archivo sin fecha. Cárgalos para ver cómo la revisión los detiene antes de procesar y dice dónde
+  está el problema.
+- [crates/core/tests/fixtures/demo/sucio/](crates/core/tests/fixtures/demo/sucio/) trae los mismos
+  reportes con desorden realista que la app debe tolerar: documentos guardados como número, espacios
+  de más en los encabezados, fechas como texto, celdas `#N/A` y filas vacías. Se procesan y dan las
+  mismas cifras que los limpios.
+- Los datos limpios también traen casos sembrados para que los controles tengan qué mostrar: personas de
+  la planilla que no están en la base, exámenes de salida con centros de costo inexistentes,
+  practicantes sin renovación y otros.
+
+La lista completa, con lo que debe detectar cada caso, está en [demo/README.md](demo/README.md).
+
+## Adaptarlo a tus datos
+
+Este proyecto **no es una receta que se copia y pega**. Los contratos, las reglas y los indicadores
+responden a un caso concreto de RR. HH.: los nombres de archivo, las hojas, las columnas y los umbrales
+de ese caso. Tus Excel casi seguro serán distintos, y la app los rechazará en la revisión hasta que la
+configuración los describa. Ese rechazo es intencional: es lo que evita indicadores calculados sobre
+columnas equivocadas.
+
+Lo que sí se reutiliza es el **molde**: revisión previa, capas Silver y Gold en SQL, Parquet, Excel de
+revisión, controles y tablero. Adaptarlo se hace en [config/](config/README.md), casi siempre sin tocar
+Rust:
+
+| Si tus datos difieren en… | Se ajusta en |
+|---|---|
+| Nombre de archivo, hojas, fila de cabecera o nombres de columna | el contrato de la fuente, en `config/fuentes/<fuente>.yaml` (`patron_nombre`, `hojas`, `cabecera`, `origen` de cada columna) |
+| Reglas de negocio: qué cuenta como salida, cómo se calcula una antigüedad | el SQL de la fuente, en `config/sql/<fuente>/` |
+| Umbrales y valores fijos: días de alerta, edades, cargos | `config/parametros.yaml` |
+| Indicadores del tablero | `config/indicadores.yaml` y su SQL |
+| Un reporte nuevo | un contrato, una carpeta de SQL y una entrada en `config/reportes.yaml` ([guía](config/README.md)) |
+
+Un camino razonable:
+
+1. **Empieza por una fuente.** Toma un Excel tuyo, copia el contrato más parecido y ajusta los nombres
+   de las columnas en `origen`. La revisión de la app te dirá qué falta, en términos de Excel.
+2. **Revisa las reglas** de ese dominio en [docs/logica-negocio/](docs/logica-negocio/README.md). Cada
+   regla tiene un ID y dice qué decisión se tomó; decide si aplica a tu caso.
+3. **Compara con algo que conozcas**, por ejemplo el total de personas de un mes que ya cerraste a mano,
+   antes de confiar en los indicadores.
+4. **Prueba sin la interfaz** con el CLI (`etl-local validar` y `etl-local procesar`; ver [AGENTS.md](AGENTS.md)).
+   Para usar tu configuración en la app instalada, apunta la variable de entorno `ETL_LOCAL_CONFIG` a tu
+   carpeta `config/`.
+
+Si tus datos no cambian de forma entre meses, la adaptación se hace una vez. Si cambian a menudo, el
+contrato es el lugar donde se nota y se corrige.
 
 ## Para desarrolladores
 
