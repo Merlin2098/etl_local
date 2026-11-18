@@ -3,10 +3,10 @@
 Convierte los Excel operativos de Recursos Humanos en indicadores y en un tablero interactivo. Todo
 sucede en tu PC.
 
-[![Pruebas](https://github.com/merlin2098/etl-local/actions/workflows/pruebas.yml/badge.svg)](https://github.com/merlin2098/etl-local/actions/workflows/pruebas.yml)
+[![Pruebas](https://github.com/Merlin2098/etl_local/actions/workflows/pruebas.yml/badge.svg)](https://github.com/Merlin2098/etl_local/actions/workflows/pruebas.yml)
 [![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-blue.svg)](LICENSE)
 
-**[⬇ Descargar para Windows](https://github.com/merlin2098/etl-local/releases/latest)**
+**[⬇ Descargar para Windows](https://github.com/Merlin2098/etl_local/releases/latest)**
 
 ## El problema
 
@@ -85,7 +85,7 @@ flowchart LR
 ## Probarlo
 
 1. Descarga el instalador (`.msi` o `-setup.exe`) del
-   [último release](https://github.com/merlin2098/etl-local/releases/latest).
+   [último release](https://github.com/Merlin2098/etl_local/releases/latest).
 2. El instalador no está firmado, así que Windows SmartScreen puede mostrar «Windows protegió su PC».
    Elige **Más información → Ejecutar de todas formas**.
 3. Para tener Excel de ejemplo, usa los que vienen en el repositorio,
