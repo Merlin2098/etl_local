@@ -1,0 +1,37 @@
+[workspace]
+members = ["crates/core", "crates/api", "crates/cli", "app/src-tauri"]
+# La app (Tauri) no entra en `cargo test`/`cargo build` por defecto: necesita app/ui/dist y compila mucho más.
+default-members = ["crates/core", "crates/api", "crates/cli"]
+resolver = "3"
+
+[workspace.package]
+edition = "2024"
+version = "0.1.0"
+license = "MIT"
+rust-version = "1.88"
+
+[workspace.dependencies]
+calamine = { version = "0.38", features = ["dates"] }
+duckdb = { version = "1.20000.2", features = ["bundled"] }
+chrono = { version = "0.4", default-features = false, features = ["std", "serde"] }
+serde = { version = "1", features = ["derive"] }
+serde-saphyr = "2.1"
+serde_json = "1"
+regex = "1"
+unicode-normalization = "0.1"
+thiserror = "2"
+schemars = { version = "1.2", features = ["chrono04"] }
+clap = { version = "4.6", features = ["derive"] }
+tempfile = "3"
+rust_xlsxwriter = "0.102"
+axum = "0.8.9"
+tokio = { version = "1.54", features = ["rt-multi-thread", "macros", "net", "signal"] }
+tower = { version = "0.5.3", features = ["util"] }
+http-body-util = "0.1.5"
+etl-local-core = { path = "crates/core" }
+etl-local-api = { path = "crates/api" }
+
+# DuckDB (C++) optimizado también en debug: compilarlo cuesta una vez, y los tests y el tablero corren varias
+# veces más rápido. El resto del workspace sigue en opt-level 0 para compilar rápido.
+[profile.dev.package.libduckdb-sys]
+opt-level = 3

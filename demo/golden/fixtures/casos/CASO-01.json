@@ -1,0 +1,8 @@
+{
+  "caso": "CASO-01",
+  "errores": [
+    "Planilla 2025-11 Empleados.xlsx: Expected header at row 6 col A (sheet 'Planilla') but found empty/shifted",
+    "Planilla 2025-11 Empleados.xlsx: Missing required columns in sheet 'Planilla': ['APELLIDO PATERNO', 'NOMBRES', 'TIPO DE DOCUMENTO', 'DNI/CEX']"
+  ],
+  "etl": "nomina"
+}

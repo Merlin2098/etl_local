@@ -1,0 +1,27 @@
+/* Tokens de docs/diseno/README.md §Lenguaje visual. Solo modo claro: el oscuro está pendiente de diseño. */
+:root {
+  --color-fondo: #f5f6f2;
+  --color-superficie: #ffffff;
+  --color-texto: #1b2420;
+  --color-texto-2: #55605a;
+  --color-accion: #1e6b47;
+  --color-accion-oscura: #14492f;
+  --color-accion-suave: #e3f0e8;
+  --color-aviso-fondo: #fdf1dc;
+  --color-aviso-texto: #6b3a00;
+  --color-error: #a3261b;
+  --color-error-fondo: #fbe7e4;
+  --color-borde: #dde2dc;
+  --color-borde-fuerte: #c9d0c8;
+  --color-gris-suave: #eef0ec;
+  --color-desactivado: #b9c4bc;
+  --color-real: #fff8e6;
+
+  --fuente-texto: "Atkinson Hyperlegible", system-ui, sans-serif;
+  --fuente-titulo: "Bricolage Grotesque", system-ui, sans-serif;
+  --fuente-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --alto-control: 44px;
+  --alto-principal: 52px;
+  --radio: 12px;
+}

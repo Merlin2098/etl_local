@@ -1,0 +1,54 @@
+# Reportes que ofrece la app (pantalla 1, Plan 6). fuente y complementos: contratos de config/fuentes/.
+# varios_archivos: se pueden elegir varios archivos a la vez (uno por periodo).
+# excel: archivo de actual/excel/ que abre «Abrir en Excel». genero: concordancia de «Tu … está lista/o».
+# El Plan 8 agrega aquí los reportes nuevos; la UI no cambia.
+reportes:
+  - id: planilla
+    titulo: Planilla mensual
+    descripcion: Horas extra, subsidios, licencias y salidas
+    fuente: planilla
+    varios_archivos: true
+    complementos: [licencias]
+    excel: planilla
+    genero: femenino
+  - id: base_personal
+    titulo: Base de personal
+    descripcion: Quién trabaja hoy y alertas de contrato y edad
+    fuente: base_personal
+    varios_archivos: false
+    complementos: []
+    excel: base_personal_empleados
+    genero: femenino
+  # Plan 8: reportes del molde (contrato + config/sql/<fuente>/); no alimentan el tablero.
+  - id: planilla_regimen_especial
+    titulo: Planilla régimen especial
+    descripcion: Días y horas del personal con régimen especial
+    fuente: planilla_regimen_especial
+    varios_archivos: true
+    complementos: []
+    excel: planilla_regimen_especial
+    genero: femenino
+  - id: altas_personal
+    titulo: Altas de personal
+    descripcion: Quién entró cada mes, empleados y practicantes
+    fuente: altas_personal
+    varios_archivos: true
+    complementos: []
+    excel: altas_personal
+    genero: femenino
+  - id: practicantes
+    titulo: Control de practicantes
+    descripcion: Tiempo de servicio y alertas de 1 y 2 años
+    fuente: practicantes
+    varios_archivos: false
+    complementos: []
+    excel: practicantes
+    genero: masculino
+  - id: examenes_salida
+    titulo: Control de exámenes médicos de salida
+    descripcion: Ceses y su centro de costo
+    fuente: examenes_salida
+    varios_archivos: false
+    complementos: []
+    excel: examenes_salida
+    genero: masculino

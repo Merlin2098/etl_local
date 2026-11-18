@@ -1,0 +1,596 @@
+{
+  "$defs": {
+    "ArchivoElegido": {
+      "properties": {
+        "bytes": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "carpeta": {
+          "description": "Las dos últimas carpetas, como «Documentos › Planillas».",
+          "type": "string"
+        },
+        "fecha_nombre": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FechaNombre"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "modificado": {
+          "description": "Fecha de modificación (`AAAA-MM-DD`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "nombre": {
+          "type": "string"
+        },
+        "ruta": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ruta",
+        "nombre",
+        "carpeta",
+        "bytes"
+      ],
+      "type": "object"
+    },
+    "Avance": {
+      "description": "Aviso de avance: `paso` empieza; `indice` es su posición en `pasos(entradas)`.",
+      "properties": {
+        "indice": {
+          "format": "uint",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "paso": {
+          "$ref": "#/$defs/Paso"
+        },
+        "pasos": {
+          "description": "Todos los pasos de esta ejecución, en orden (la app arma la lista con el primer aviso).",
+          "items": {
+            "$ref": "#/$defs/Paso"
+          },
+          "type": "array"
+        },
+        "total": {
+          "format": "uint",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "paso",
+        "indice",
+        "total",
+        "pasos"
+      ],
+      "type": "object"
+    },
+    "Cifra": {
+      "properties": {
+        "etiqueta": {
+          "type": "string"
+        },
+        "valor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "valor",
+        "etiqueta"
+      ],
+      "type": "object"
+    },
+    "Ejecucion": {
+      "description": "Resumen de una ejecución; se guarda como `ejecucion.json` junto a los Parquet (TR-D16).",
+      "properties": {
+        "etapas": {
+          "items": {
+            "$ref": "#/$defs/Etapa"
+          },
+          "type": "array"
+        },
+        "fecha_corte": {
+          "format": "date",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fuentes": {
+          "items": {
+            "$ref": "#/$defs/Fuente"
+          },
+          "type": "array"
+        },
+        "marca": {
+          "type": "string"
+        },
+        "periodos": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "problemas": {
+          "description": "Avisos de lectura y de los controles.",
+          "items": {
+            "$ref": "#/$defs/Problema"
+          },
+          "type": "array"
+        },
+        "salidas": {
+          "description": "(ruta relativa del Parquet, filas)",
+          "items": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "string"
+              },
+              {
+                "format": "uint64",
+                "minimum": 0,
+                "type": "integer"
+              }
+            ],
+            "type": "array"
+          },
+          "type": "array"
+        },
+        "version_motor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "marca",
+        "version_motor",
+        "periodos",
+        "fuentes",
+        "etapas",
+        "salidas",
+        "problemas"
+      ],
+      "type": "object"
+    },
+    "ErrorApp": {
+      "properties": {
+        "codigo": {
+          "description": "`entradas`, `cancelado`, `archivo_abierto`, `en_curso`, `no_permitido`, `sin_excel` o `interno`.",
+          "type": "string"
+        },
+        "mensaje": {
+          "type": "string"
+        },
+        "problemas": {
+          "items": {
+            "$ref": "#/$defs/Problema"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "codigo",
+        "mensaje",
+        "problemas"
+      ],
+      "type": "object"
+    },
+    "EstadoEtapa": {
+      "description": "Estado de una etapa (TR-D6).",
+      "enum": [
+        "ok",
+        "aviso",
+        "fallo",
+        "omitida"
+      ],
+      "type": "string"
+    },
+    "EstadoReporte": {
+      "properties": {
+        "reporte": {
+          "$ref": "#/$defs/Reporte"
+        },
+        "ultimo": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FechaNombre"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "La fecha más reciente entre los archivos guardados de la fuente del reporte."
+        },
+        "vigencia": {
+          "$ref": "#/$defs/Vigencia"
+        }
+      },
+      "required": [
+        "reporte",
+        "vigencia"
+      ],
+      "type": "object"
+    },
+    "Etapa": {
+      "properties": {
+        "estado": {
+          "$ref": "#/$defs/EstadoEtapa"
+        },
+        "filas": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "nombre": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "nombre",
+        "estado"
+      ],
+      "type": "object"
+    },
+    "FechaNombre": {
+      "description": "Fecha extraída del nombre del archivo (TR-D3).",
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "periodo": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "periodo"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "fecha_corte": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          "required": [
+            "fecha_corte"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "Fuente": {
+      "properties": {
+        "archivo": {
+          "type": "string"
+        },
+        "fecha_nombre": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FechaNombre"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fuente": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "fuente",
+        "archivo"
+      ],
+      "type": "object"
+    },
+    "Genero": {
+      "enum": [
+        "femenino",
+        "masculino"
+      ],
+      "type": "string"
+    },
+    "Inicio": {
+      "properties": {
+        "carpeta_visible": {
+          "type": "string"
+        },
+        "tarjetas": {
+          "items": {
+            "$ref": "#/$defs/TarjetaReporte"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "tarjetas",
+        "carpeta_visible"
+      ],
+      "type": "object"
+    },
+    "Paso": {
+      "description": "Paso del proceso que la app muestra en lenguaje de oficina (Plan 6, pantalla «Procesando»).",
+      "oneOf": [
+        {
+          "enum": [
+            "leer",
+            "licencias",
+            "planilla",
+            "base_personal",
+            "controles",
+            "guardar"
+          ],
+          "type": "string"
+        },
+        {
+          "const": "otros_reportes",
+          "description": "Plan 8: las fuentes del molde (un solo paso para todas).",
+          "type": "string"
+        }
+      ]
+    },
+    "Problema": {
+      "properties": {
+        "archivo": {
+          "description": "Nombre base del archivo.",
+          "type": "string"
+        },
+        "celda": {
+          "description": "Celda (`A6`) o ubicación (`fila 6`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "celda_encontrada": {
+          "description": "TR-D13: dónde se encontró lo que se esperaba en `celda` (por ejemplo, la cabecera desplazada a `A7`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "codigo": {
+          "description": "ID de regla de `docs/logica-negocio/` (por ejemplo, `PRE-10`).",
+          "type": "string"
+        },
+        "detalle": {
+          "description": "Detalle técnico para soporte (por ejemplo, el error del lector de Excel).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hoja": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "mensaje": {
+          "description": "Texto en español claro para el usuario.",
+          "type": "string"
+        },
+        "severidad": {
+          "$ref": "#/$defs/Severidad"
+        }
+      },
+      "required": [
+        "codigo",
+        "severidad",
+        "archivo",
+        "mensaje"
+      ],
+      "type": "object"
+    },
+    "ProblemaVista": {
+      "properties": {
+        "problema": {
+          "$ref": "#/$defs/Problema"
+        },
+        "recorte": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Recorte"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "problema"
+      ],
+      "type": "object"
+    },
+    "Recorte": {
+      "description": "Un trozo de hoja, como texto, para mostrar dónde está un problema.",
+      "properties": {
+        "celdas": {
+          "description": "`celdas[f][c]` es la celda de la fila `fila_inicio + f` y la columna `columna_inicio + c`.",
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        },
+        "columna_inicio": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "fila_inicio": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "hoja": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "hoja",
+        "fila_inicio",
+        "columna_inicio",
+        "celdas"
+      ],
+      "type": "object"
+    },
+    "Reporte": {
+      "additionalProperties": false,
+      "description": "Un reporte que el usuario puede actualizar (una tarjeta de la pantalla 1).",
+      "properties": {
+        "complementos": {
+          "default": [],
+          "description": "Contratos que se pueden agregar a este reporte (por ejemplo, `licencias` en la planilla).",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "descripcion": {
+          "type": "string"
+        },
+        "excel": {
+          "description": "Nombre del archivo de `actual/excel/` (sin extensión) que abre «Abrir en Excel».",
+          "type": "string"
+        },
+        "fuente": {
+          "description": "Contrato principal (`config/fuentes/<fuente>.yaml`).",
+          "type": "string"
+        },
+        "genero": {
+          "$ref": "#/$defs/Genero"
+        },
+        "id": {
+          "type": "string"
+        },
+        "titulo": {
+          "type": "string"
+        },
+        "varios_archivos": {
+          "description": "Se pueden elegir varios archivos (uno por periodo).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "titulo",
+        "descripcion",
+        "fuente",
+        "varios_archivos",
+        "excel",
+        "genero"
+      ],
+      "type": "object"
+    },
+    "Resultado": {
+      "properties": {
+        "cifras": {
+          "items": {
+            "$ref": "#/$defs/Cifra"
+          },
+          "type": "array"
+        },
+        "ejecucion": {
+          "$ref": "#/$defs/Ejecucion"
+        },
+        "para_revisar": {
+          "items": {
+            "$ref": "#/$defs/Problema"
+          },
+          "type": "array"
+        },
+        "titulo_periodos": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ejecucion",
+        "titulo_periodos",
+        "cifras",
+        "para_revisar"
+      ],
+      "type": "object"
+    },
+    "RevisionArchivo": {
+      "properties": {
+        "archivo": {
+          "$ref": "#/$defs/ArchivoElegido"
+        },
+        "personas": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "problemas": {
+          "items": {
+            "$ref": "#/$defs/ProblemaVista"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "archivo",
+        "problemas"
+      ],
+      "type": "object"
+    },
+    "Severidad": {
+      "enum": [
+        "error",
+        "aviso"
+      ],
+      "type": "string"
+    },
+    "TarjetaReporte": {
+      "properties": {
+        "duracion_prevista_ms": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "estado": {
+          "$ref": "#/$defs/EstadoReporte"
+        }
+      },
+      "required": [
+        "estado"
+      ],
+      "type": "object"
+    },
+    "Vigencia": {
+      "enum": [
+        "nunca",
+        "al_dia",
+        "atrasado"
+      ],
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

@@ -1,0 +1,75 @@
+/* Resumen en PDF de una página (ADR-0005 §4, TR-D19): A4 vertical, sin controles, con la barra de frescura,
+   los indicadores, los riesgos y los gráficos. Las media queries evalúan el ancho de la página (≈ 700 px), por eso
+   aquí se fijan las grillas de escritorio y se reduce todo con `zoom`. */
+.solo-impresion {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  html,
+  body {
+    background: #ffffff;
+  }
+
+  body {
+    zoom: 0.75;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* Fuera: encabezado, pestañas, filtros, «¿De dónde sale?», botones, tablas y avisos que se cierran. */
+  header.top,
+  .pestanas,
+  .filtros,
+  .origen,
+  .envoltura,
+  button:not(.barra),
+  .tabla {
+    display: none !important;
+  }
+
+  .solo-impresion {
+    display: block;
+  }
+  .solo-impresion h1 {
+    margin: 0 0 4px;
+    font-size: 28px;
+  }
+  .solo-impresion p {
+    margin: 0;
+    color: #55605a;
+  }
+  .pie {
+    margin-top: 8px;
+    font-size: 13px;
+  }
+
+  main {
+    max-width: none !important;
+    padding: 0 !important;
+    gap: 14px !important;
+  }
+
+  .tarjetas {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+  .rejilla {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .tarjeta,
+  .panel,
+  .riesgo {
+    break-inside: avoid;
+  }
+
+  /* Las barras de gerencia se imprimen como gráfico, no como botones. */
+  .barra {
+    min-height: 30px !important;
+  }
+}

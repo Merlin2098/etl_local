@@ -1,0 +1,7 @@
+{
+  "caso": "CASO-05",
+  "errores": [
+    "Base de Datos 12.11.2025.xlsx: Filename does not match regex: (?i)^BD\\.\\s*(?P<fecha>\\d{2}\\.\\d{2}\\.\\d{4})\\.\\.(xlsx|xlsm|xls)$"
+  ],
+  "etl": "bd"
+}

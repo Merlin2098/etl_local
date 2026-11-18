@@ -1,0 +1,10 @@
+{
+  "fecha_ejecucion": "2026-11-16",
+  "modo": "casos",
+  "semilla": 42,
+  "versiones": {
+    "duckdb": "1.5.2",
+    "polars": "1.40.1",
+    "python": "3.12.14"
+  }
+}

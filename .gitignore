@@ -1,0 +1,99 @@
+# =====================================================================
+# CONFIDENCIALIDAD — legacy con referencias al cliente y datos reales
+# Nunca versionar (ver AGENTS.md §3.1)
+# =====================================================================
+HR_Data_Integration_Pipeline/
+
+# =====================================================================
+# Datos: nunca se versionan archivos de datos, salvo fixtures sintéticos
+# pequeños de tests (ver ADR-0002)
+# =====================================================================
+*.xlsx
+*.xlsm
+*.xls
+*.ods
+*.csv
+*.parquet
+*.duckdb
+*.duckdb.wal
+data/
+output/
+outputs/
+!**/fixtures/**
+!**/fixtures/**/*.xlsx
+!**/fixtures/**/*.xlsm
+!**/fixtures/**/*.xls
+!**/fixtures/**/*.csv
+!**/fixtures/**/*.parquet
+
+# =====================================================================
+# Rust
+# =====================================================================
+/target/
+**/target/
+**/*.rs.bk
+*.pdb
+
+# =====================================================================
+# Tauri / frontend
+# =====================================================================
+node_modules/
+dist/
+build/
+.vite/
+.svelte-kit/
+.next/
+app/src-tauri/gen/schemas/
+app/src-tauri/WixTools/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =====================================================================
+# Python (demo/)
+# =====================================================================
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+demo/generated/
+demo/golden/output/
+
+# =====================================================================
+# Entorno, secretos y logs
+# =====================================================================
+.env
+.env.*
+!.env.example
+*.log
+logs/
+
+# =====================================================================
+# Sistema operativo / editores
+# =====================================================================
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+*.swp
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# =====================================================================
+# Configuración local de agentes
+# =====================================================================
+.claude/settings.local.json
+
+# Capturas y registros de pruebas manuales con navegador
+.playwright-mcp/
+
+# Espacio de trabajo de agentes (ledgers de planes)
+.superpowers/

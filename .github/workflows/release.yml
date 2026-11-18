@@ -1,0 +1,52 @@
+# Release del instalador de Windows (Plan 9). Al empujar una etiqueta v* compila la app y deja el .msi y
+# el setup.exe en un release BORRADOR; quien mantiene el repositorio lo revisa y lo publica.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  instalador-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: dtolnay/rust-toolchain@39008827e6b4319a349e9a42dfc90579dd25f1ca # stable
+        with:
+          toolchain: stable
+
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: lts/*
+          cache: npm
+          cache-dependency-path: app/ui/package-lock.json
+
+      - name: Dependencias de la interfaz
+        working-directory: app/ui
+        run: npm ci
+
+      # projectPath es app/ (no app/ui): la acción busca tauri.conf.json debajo de projectPath.
+      # El script `tauri` de app/ui le indica a la CLI dónde están src-tauri y el frontend.
+      - uses: tauri-apps/tauri-action@1deb371b0cd8bd54025b384f1cd735e725c4060f # action-v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: app
+          tauriScript: npm --prefix ui run tauri
+          tagName: ${{ github.ref_name }}
+          releaseName: Integrador RR. HH. ${{ github.ref_name }}
+          releaseDraft: true
+          prerelease: false
+          releaseBody: |
+            Instalador para Windows: descarga el `.msi` o el `-setup.exe`.
+
+            El instalador no está firmado, así que Windows SmartScreen puede mostrar «Windows protegió su PC».
+            Elige **Más información → Ejecutar de todas formas**.
+
+            Para probarlo con datos sintéticos, consulta la sección «Probarlo» del README.

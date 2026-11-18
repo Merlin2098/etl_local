@@ -1,0 +1,286 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Contrato",
+  "type": "object",
+  "properties": {
+    "archivo": {
+      "$ref": "#/$defs/ReglasArchivo"
+    },
+    "fuente": {
+      "description": "Nombre canónico de la fuente (`planilla`, `base_personal`…).",
+      "type": "string"
+    },
+    "hojas": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Hoja"
+      }
+    },
+    "titulo": {
+      "description": "Nombre que ve el usuario.",
+      "type": "string"
+    },
+    "version": {
+      "description": "Versión del formato de contrato (hoy, 1).",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "fuente",
+    "titulo",
+    "archivo",
+    "hojas"
+  ],
+  "$defs": {
+    "Columna": {
+      "type": "object",
+      "properties": {
+        "clave": {
+          "description": "Columna que identifica una fila de datos; las filas sin clave se descartan.",
+          "type": "boolean",
+          "default": false
+        },
+        "formatos": {
+          "description": "Formatos aceptados para `fecha` (vacío = solo fecha de Excel).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FormatoFecha"
+          }
+        },
+        "maximo": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double",
+          "default": null
+        },
+        "minimo": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double",
+          "default": null
+        },
+        "nombre": {
+          "description": "Nombre canónico (`snake_case` ASCII).",
+          "type": "string"
+        },
+        "nula": {
+          "description": "Se aceptan filas sin valor.",
+          "type": "boolean",
+          "default": true
+        },
+        "origen": {
+          "description": "Cabeceras posibles en la fuente; gana la primera presente.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requerida": {
+          "description": "La cabecera debe existir.",
+          "type": "boolean",
+          "default": false
+        },
+        "tipo": {
+          "$ref": "#/$defs/TipoDato"
+        },
+        "valores": {
+          "description": "Valores permitidos para `texto`.",
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "nombre",
+        "origen",
+        "tipo"
+      ]
+    },
+    "ColumnaDinamica": {
+      "type": "object",
+      "properties": {
+        "patron_origen": {
+          "description": "Expresión regular sobre la cabecera normalizada, con el grupo `motivo`.",
+          "type": "string"
+        },
+        "prefijo": {
+          "description": "Prefijo del nombre canónico; se completa con el grupo `motivo`.",
+          "type": "string"
+        },
+        "tipo": {
+          "$ref": "#/$defs/TipoDato"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "prefijo",
+        "patron_origen",
+        "tipo"
+      ]
+    },
+    "ColumnasExtra": {
+      "type": "string",
+      "enum": [
+        "ignorar",
+        "conservar"
+      ]
+    },
+    "FechaEnNombre": {
+      "type": "object",
+      "properties": {
+        "formato": {
+          "$ref": "#/$defs/FormatoFechaNombre"
+        },
+        "grupo": {
+          "description": "Grupo con nombre de `patron_nombre` que contiene la fecha.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "grupo",
+        "formato"
+      ]
+    },
+    "FinDatos": {
+      "description": "Hasta dónde se leen filas (TR-D2).",
+      "type": "string",
+      "enum": [
+        "fin_hoja",
+        "fila_vacia",
+        "clave_vacia"
+      ]
+    },
+    "FormatoFecha": {
+      "type": "string",
+      "enum": [
+        "excel",
+        "DD/MM/AAAA",
+        "AAAA-MM-DD"
+      ]
+    },
+    "FormatoFechaNombre": {
+      "type": "string",
+      "enum": [
+        "AAAA-MM",
+        "DD.MM.AAAA"
+      ]
+    },
+    "Hoja": {
+      "type": "object",
+      "properties": {
+        "cabecera": {
+          "description": "Celda donde empieza la cabecera (por ejemplo, `A6`).",
+          "type": "string"
+        },
+        "columnas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Columna"
+          }
+        },
+        "columnas_dinamicas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ColumnaDinamica"
+          }
+        },
+        "columnas_extra": {
+          "$ref": "#/$defs/ColumnasExtra"
+        },
+        "filas_resumen": {
+          "description": "Textos de filas de totales o subtotales (NOM-BRZ-10). Una fila cuya primera celda, sin `+`, `-`,\n`*` ni espacios al inicio, contiene alguno (comparación normalizada) se descarta sin aviso.",
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        },
+        "fin_datos": {
+          "$ref": "#/$defs/FinDatos"
+        },
+        "nombre": {
+          "description": "Nombre exacto de la hoja, o lista de nombres aceptados.",
+          "$ref": "#/$defs/NombresHoja"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "nombre",
+        "cabecera",
+        "columnas"
+      ]
+    },
+    "NombresHoja": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "ReglasArchivo": {
+      "type": "object",
+      "properties": {
+        "extensiones": {
+          "description": "Extensiones permitidas, sin punto y en minúsculas.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fecha_en_nombre": {
+          "description": "Fecha que se extrae del nombre del archivo (periodo o fecha de corte).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FechaEnNombre"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "patron_nombre": {
+          "description": "Expresión regular que debe coincidir con el nombre completo del archivo.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "extensiones"
+      ]
+    },
+    "TipoDato": {
+      "type": "string",
+      "enum": [
+        "texto",
+        "entero",
+        "decimal",
+        "fecha",
+        "periodo",
+        "documento",
+        "booleano"
+      ]
+    }
+  }
+}

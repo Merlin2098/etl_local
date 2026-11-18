@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=../esquema-contrato.json
+# Altas de personal (Plan 8; en el legacy, «relación de ingresos»). Formato: ADR-0003.
+# Reglas: docs/logica-negocio/pdt-relacion-ingresos.md. Cada hoja usa sus propios encabezados, con los mismos
+# nombres canónicos. PROYECTO y CODIGO SAP no se leen (PDT §9.7: ningún cálculo los usa).
+version: 1
+fuente: altas_personal
+titulo: Altas de personal
+
+archivo:
+  extensiones: [xlsx, xlsm, xls]
+  patron_nombre: '(?i).*Altas de personal (?P<periodo>\d{4}-\d{2}).*\.(xlsx|xlsm|xls)'
+  fecha_en_nombre: { grupo: periodo, formato: AAAA-MM }
+
+hojas:
+  - nombre: EMPLEADOS
+    cabecera: A1
+    columnas:
+      - { nombre: numero_documento, origen: ['DNI'], tipo: documento, requerida: true, clave: true }
+      - { nombre: nombre_completo, origen: ['APELLIDOS Y NOMBRES'], tipo: texto, requerida: true }
+      - { nombre: sexo, origen: ['SEXO'], tipo: texto, valores: [M, F] }
+      - { nombre: fecha_nacimiento, origen: ['FECHA NACIMIENTO'], tipo: fecha, formatos: [excel, DD/MM/AAAA] }
+      - { nombre: cargo, origen: ['CARGO'], tipo: texto }
+      - { nombre: area, origen: ['AREA'], tipo: texto }
+      - { nombre: sede, origen: ['SEDE'], tipo: texto }
+      - nombre: fecha_entrada
+        origen: ['FECHA INICIO']
+        tipo: fecha
+        requerida: true
+        formatos: [excel, DD/MM/AAAA]
+      - { nombre: modalidad_contrato, origen: ['TIPO DE CONTRATO'], tipo: texto }
+  - nombre: PRACTICANTES
+    cabecera: A1
+    columnas:
+      - { nombre: numero_documento, origen: ['Numero Documento'], tipo: documento, requerida: true, clave: true }
+      - { nombre: nombre_completo, origen: ['Apellidos y Nombres'], tipo: texto, requerida: true }
+      - { nombre: sexo, origen: ['Sexo'], tipo: texto, valores: [M, F] }
+      - { nombre: fecha_nacimiento, origen: ['Fecha Nacimiento'], tipo: fecha, formatos: [excel, DD/MM/AAAA] }
+      - { nombre: cargo, origen: ['Cargo'], tipo: texto }
+      - { nombre: area, origen: ['Area'], tipo: texto }
+      - { nombre: sede, origen: ['Sede'], tipo: texto }
+      - nombre: fecha_entrada
+        origen: ['Fecha Inicio']
+        tipo: fecha
+        requerida: true
+        formatos: [excel, DD/MM/AAAA]
+      - { nombre: universidad, origen: ['Universidad de Procedencia'], tipo: texto }

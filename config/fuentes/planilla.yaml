@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=../esquema-contrato.json
+# Planilla mensual de empleados. Formato: ADR-0003. Reglas: docs/logica-negocio/nomina.md (NOM-BRZ-04…13).
+version: 1
+fuente: planilla
+titulo: Planilla mensual
+
+archivo:
+  extensiones: [xlsx, xlsm, xls]
+  # El periodo AAAA-MM va en el nombre (NOM-BRZ-04); sin él, el archivo se rechaza (corrige NOM-BRZ-05).
+  patron_nombre: '(?i).*Planilla (?P<periodo>\d{4}-\d{2}).*\.(xlsx|xlsm|xls)'
+  fecha_en_nombre: { grupo: periodo, formato: AAAA-MM }
+
+hojas:
+  - nombre: Planilla
+    cabecera: A6
+    # Filas de totales al final de la hoja (NOM-BRZ-10): se descartan sin aviso.
+    filas_resumen:
+      - ingresos del mes
+      - descuentos del mes
+      - aportaciones del mes
+      - total ingresos
+      - total descuentos
+      - total aportaciones
+      - subtotal
+      - totales
+    columnas:
+      - { nombre: codigo_empleado, origen: ['CÓDIGO CORPORATIVO'], tipo: texto }
+      - { nombre: apellido_paterno, origen: ['APELLIDO PATERNO'], tipo: texto, requerida: true, nula: false }
+      - { nombre: apellido_materno, origen: ['APELLIDO MATERNO'], tipo: texto }
+      - { nombre: nombres, origen: ['NOMBRES'], tipo: texto, requerida: true, nula: false }
+      - { nombre: tipo_documento, origen: ['TIPO DE DOCUMENTO'], tipo: texto, requerida: true }
+      - nombre: numero_documento
+        origen: ['DNI/CEX']
+        tipo: documento
+        requerida: true
+        nula: false
+        clave: true
+      - { nombre: sexo, origen: ['SEXO'], tipo: texto, valores: [M, F] }
+      - { nombre: fecha_nacimiento, origen: ['F. NACIMIENTO'], tipo: fecha, formatos: [excel, DD/MM/AAAA] }
+      - { nombre: area, origen: ['ÁREA'], tipo: texto }
+      - { nombre: centro_costo, origen: ['CENTRO DE COSTOS'], tipo: texto }
+      - { nombre: fecha_entrada, origen: ['FECHA DE INGRESO'], tipo: fecha, formatos: [excel, DD/MM/AAAA] }
+      - { nombre: fecha_salida, origen: ['FECHA CESE'], tipo: fecha, formatos: [excel, DD/MM/AAAA] }
+      - { nombre: motivo_salida, origen: ['MOTIVO CESE'], tipo: texto }
+      - { nombre: dias_descanso_medico, origen: ['DIAS DESC MEDICO (P)'], tipo: entero, minimo: 0 }
+      - { nombre: dias_licencia_con_goce, origen: ['DIAS GOCE HABER(D)'], tipo: entero, minimo: 0 }
+      - { nombre: dias_licencia_sin_goce, origen: ['DIAS DIST.LIC.S.GH'], tipo: entero, minimo: 0 }
+      - { nombre: dias_licencia_paternidad, origen: ['DIAS LIC. PATE (P)'], tipo: entero, minimo: 0 }
+      - { nombre: dias_subsidio_enfermedad, origen: ['DIAS SUBSIDIO ENFERMEDAD'], tipo: entero, minimo: 0 }
+      - { nombre: horas_extra_25, origen: ['# HRS EXTRAS SIMP.25%'], tipo: decimal, minimo: 0 }
+      - { nombre: horas_extra_35, origen: ['# HRS EXTRAS SIMP.35%'], tipo: decimal, minimo: 0 }
+      - { nombre: horas_extra_50, origen: ['#HRS SIMP.50%', 'HRS SIMPLES AL 50%'], tipo: decimal, minimo: 0 }
+      - { nombre: horas_extra_100, origen: ['#HRS EXTRAS DOBLES'], tipo: decimal, minimo: 0 }
+    columnas_dinamicas:
+      # Columnas que aparecen solo algunos meses, como "DIAS SUB. MATERNIDAD" → dias_subsidio_maternidad.
+      - prefijo: dias_subsidio_
+        patron_origen: 'DIAS SUB\.\s*(?P<motivo>.+)'
+        tipo: entero

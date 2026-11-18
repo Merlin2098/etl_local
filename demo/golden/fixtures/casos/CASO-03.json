@@ -1,0 +1,7 @@
+{
+  "caso": "CASO-03",
+  "errores": [
+    "Planilla 2025-11 Empleados.xlsx: Missing required columns in sheet 'Planilla': ['DNI/CEX']"
+  ],
+  "etl": "nomina"
+}

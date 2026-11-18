@@ -1,0 +1,560 @@
+{
+  "$defs": {
+    "Check": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "mensaje": {
+          "type": "string"
+        },
+        "valor": {
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "mensaje"
+      ],
+      "type": "object"
+    },
+    "Comparacion": {
+      "description": "Comparación con el mes anterior, en palabras (nunca solo el color, §4).",
+      "enum": [
+        "mejor",
+        "peor",
+        "igual"
+      ],
+      "type": "string"
+    },
+    "Detalle": {
+      "description": "Detalle nominal disponible (TR-D18).",
+      "oneOf": [
+        {
+          "const": "alertas",
+          "description": "Personas con alerta de contrato o de jubilación (IND-07, IND-08).",
+          "type": "string"
+        },
+        {
+          "const": "sin-base",
+          "description": "Personas de la planilla sin registro en la base de personal (IND-C1).",
+          "type": "string"
+        }
+      ]
+    },
+    "ErrorApi": {
+      "description": "Cuerpo de todo error de la API: `{ \"codigo\", \"mensaje\", \"opciones\"? }` (ADR-0004 §3).",
+      "properties": {
+        "codigo": {
+          "type": "string"
+        },
+        "mensaje": {
+          "type": "string"
+        },
+        "opciones": {
+          "description": "Valores válidos, cuando el error es un filtro inválido.",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "codigo",
+        "mensaje"
+      ],
+      "type": "object"
+    },
+    "Estado": {
+      "description": "\"Datos usados\" (TR-D16), con el aviso de periodos mezclados (IND-C2).",
+      "properties": {
+        "aviso_periodos": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "avisos": {
+          "description": "Número de avisos de la ejecución (lectura y controles).",
+          "format": "uint",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "fecha_corte": {
+          "format": "date",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fuentes": {
+          "description": "Archivos usados, con la fecha leída de su nombre (TR-D3).",
+          "items": {
+            "$ref": "#/$defs/Fuente"
+          },
+          "type": "array"
+        },
+        "marca": {
+          "type": "string"
+        },
+        "periodos": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "periodos_mezclados": {
+          "type": "boolean"
+        },
+        "version_motor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "marca",
+        "version_motor",
+        "periodos",
+        "fuentes",
+        "avisos",
+        "periodos_mezclados"
+      ],
+      "type": "object"
+    },
+    "FechaNombre": {
+      "description": "Fecha extraída del nombre del archivo (TR-D3).",
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "periodo": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "periodo"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "fecha_corte": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          "required": [
+            "fecha_corte"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "Filtros": {
+      "additionalProperties": false,
+      "description": "Filtros globales del tablero. Un campo ausente significa \"todos\" (el periodo: el último).",
+      "properties": {
+        "gerencia": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "periodo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sede": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tipo_trabajador": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "Fuente": {
+      "properties": {
+        "archivo": {
+          "type": "string"
+        },
+        "fecha_nombre": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FechaNombre"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fuente": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "fuente",
+        "archivo"
+      ],
+      "type": "object"
+    },
+    "Indicador": {
+      "properties": {
+        "anterior": {
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "comparacion": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Comparacion"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "desglose": {
+          "items": {
+            "$ref": "#/$defs/Parte"
+          },
+          "type": "array"
+        },
+        "id": {
+          "type": "string"
+        },
+        "mejor_si": {
+          "$ref": "#/$defs/MejorSi"
+        },
+        "meta": {
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "nombre": {
+          "type": "string"
+        },
+        "nota": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "origen": {
+          "$ref": "#/$defs/Origen"
+        },
+        "por_gerencia": {
+          "description": "Plan 7: personas por gerencia (IND-01, IND-07, IND-08), de mayor a menor; vacío en el resto.",
+          "items": {
+            "$ref": "#/$defs/Parte"
+          },
+          "type": "array"
+        },
+        "pregunta": {
+          "type": "string"
+        },
+        "unidad": {
+          "description": "`personas`, `fraccion` (0.0073 = 0,73 %) u `horas`.",
+          "type": "string"
+        },
+        "valor": {
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "variacion": {
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "nombre",
+        "pregunta",
+        "unidad",
+        "mejor_si",
+        "desglose",
+        "por_gerencia",
+        "origen"
+      ],
+      "type": "object"
+    },
+    "MejorSi": {
+      "description": "Sentido de \"mejor\" de un indicador (indicadores-tablero §4).",
+      "enum": [
+        "baja",
+        "sube",
+        "neutro"
+      ],
+      "type": "string"
+    },
+    "OpcionesFiltro": {
+      "description": "Valores posibles de cada filtro.",
+      "properties": {
+        "gerencias": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "periodos": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sedes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "tipos_trabajador": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "periodos",
+        "gerencias",
+        "sedes",
+        "tipos_trabajador"
+      ],
+      "type": "object"
+    },
+    "Origen": {
+      "description": "De dónde sale un número (TR-D17).",
+      "properties": {
+        "archivos": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "fecha_corte": {
+          "format": "date",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fuente": {
+          "type": "string"
+        },
+        "periodo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reglas": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "fuente",
+        "archivos",
+        "reglas"
+      ],
+      "type": "object"
+    },
+    "Parte": {
+      "description": "Una parte del desglose de un indicador.",
+      "properties": {
+        "categoria": {
+          "type": "string"
+        },
+        "etiqueta": {
+          "type": "string"
+        },
+        "valor": {
+          "format": "double",
+          "type": "number"
+        }
+      },
+      "required": [
+        "categoria",
+        "etiqueta",
+        "valor"
+      ],
+      "type": "object"
+    },
+    "Punto": {
+      "properties": {
+        "periodo": {
+          "type": "string"
+        },
+        "valor": {
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "periodo"
+      ],
+      "type": "object"
+    },
+    "RespuestaChecks": {
+      "properties": {
+        "checks": {
+          "items": {
+            "$ref": "#/$defs/Check"
+          },
+          "type": "array"
+        },
+        "periodo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "checks"
+      ],
+      "type": "object"
+    },
+    "RespuestaDetalle": {
+      "description": "Detalle nominal (TR-D18): la única respuesta con nombres y documentos.",
+      "properties": {
+        "filas": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "periodo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tipo": {
+          "$ref": "#/$defs/Detalle"
+        }
+      },
+      "required": [
+        "tipo",
+        "filas"
+      ],
+      "type": "object"
+    },
+    "RespuestaIndicadores": {
+      "properties": {
+        "fecha_corte": {
+          "format": "date",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "filtros": {
+          "$ref": "#/$defs/Filtros",
+          "description": "Filtros aplicados, con el periodo ya resuelto."
+        },
+        "indicadores": {
+          "items": {
+            "$ref": "#/$defs/Indicador"
+          },
+          "type": "array"
+        },
+        "periodo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "periodo_anterior": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "filtros",
+        "indicadores"
+      ],
+      "type": "object"
+    },
+    "RespuestaSeries": {
+      "properties": {
+        "filtros": {
+          "$ref": "#/$defs/Filtros"
+        },
+        "series": {
+          "items": {
+            "$ref": "#/$defs/Serie"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "filtros",
+        "series"
+      ],
+      "type": "object"
+    },
+    "Serie": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "nombre": {
+          "type": "string"
+        },
+        "puntos": {
+          "items": {
+            "$ref": "#/$defs/Punto"
+          },
+          "type": "array"
+        },
+        "unidad": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "nombre",
+        "unidad",
+        "puntos"
+      ],
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

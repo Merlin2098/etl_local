@@ -1,0 +1,54 @@
+# Parámetros de negocio versionados (TR-D10). Los usa el SQL de config/sql/ como variables de DuckDB.
+# Normativa peruana de referencia: docs/logica-negocio/reglas-transversales.md (TR-31, TR-32) y bd.md (BD-FLG).
+version: 1
+
+# BD-FLG-05…07 y TR-D15: «cumple N durante el año de corte / el siguiente», por año de nacimiento.
+jubilacion:
+  edad: 65
+  edad_extendida: 70
+
+# BD-FLG-08…10: alerta cuando la antigüedad (hasta el fin de contrato o la fecha de corte) llega al umbral,
+# antes del máximo legal (5 y 3 años). Las modalidades se comparan normalizadas (TR-D24).
+contrato_obra:
+  modalidad: CONTRATO POR OBRA O SERVICIO ESPECIFICO
+  anios_alerta: 4.5
+contrato_incremento:
+  modalidad: CONTRATO POR INCREMENTO DE ACTIVIDAD
+  anios_alerta: 2.5
+
+# BD-GLD-06: practicante si la modalidad (normalizada) contiene este texto.
+practicante:
+  modalidad_contiene: TERMINO DE CONVENIO
+
+# LIC-SLV-05: tipo de licencia según la hoja del control de licencias. Se puede cambiar el nombre de la hoja;
+# el tipo debe ser CON_GOCE o SIN_GOCE (lo usa config/sql/planilla/20_gold.sql).
+licencias:
+  tipos:
+    LICENCIA CON GOCE: CON_GOCE
+    LICENCIA SIN GOCE: SIN_GOCE
+
+# Columnas dinámicas de subsidios de la planilla (vocabulario §4, NOM-GLD-06…08):
+# se conservan las de `conservar` y el resto con el `prefijo` se suma en `resto`.
+# `fijas` son columnas del contrato con el mismo prefijo, que no se suman.
+# `conservar` y `resto` deben coincidir con las columnas de config/sql/planilla/10_silver.sql.
+subsidios:
+  prefijo: dias_subsidio_
+  conservar: [dias_subsidio_maternidad]
+  resto: dias_subsidio_otros
+  fijas: [dias_subsidio_enfermedad]
+
+# Plan 8, CP-FLG-04…07: alertas del control de practicantes. Días de servicio = renovación − ingreso;
+# las ventanas son inclusivas y solo aplican a la condición indicada (comparada normalizada, TR-D24).
+control_practicantes:
+  condicion: PRACTICANTE PROFESIONAL
+  por_cumplir_1: [335, 364]
+  cumplio_1: 365
+  por_cumplir_2: [640, 729]
+
+# Plan 8, ER-GLD-06: los exámenes de salida no incluyen a los practicantes (cargo comparado normalizado).
+examenes_salida:
+  cargo_practicante: STUDENT INTERNAL
+
+# Metas del tablero (indicadores-tablero.md §4), opcionales: `IND-0N: número` (fracción en las tasas,
+# p. ej. IND-04: 0.02 = 2 %). Sin meta, el tablero muestra «Sin meta definida».
+metas: {}

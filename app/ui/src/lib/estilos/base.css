@@ -1,0 +1,62 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--fuente-texto);
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0;
+}
+
+a {
+  color: var(--color-accion);
+}
+
+a:hover {
+  color: var(--color-accion-oscura);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-accion);
+  outline-offset: 2px;
+}
+
+.muted {
+  color: var(--color-texto-2);
+}
+
+.visualmente-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Los títulos reciben foco al cambiar de pantalla (lectores de pantalla), sin anillo visible. */
+[tabindex="-1"]:focus {
+  outline: none;
+}

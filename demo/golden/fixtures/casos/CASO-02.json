@@ -1,0 +1,7 @@
+{
+  "caso": "CASO-02",
+  "errores": [
+    "Planilla 2025-11 Empleados.xlsx: Missing sheet 'Planilla'"
+  ],
+  "etl": "nomina"
+}

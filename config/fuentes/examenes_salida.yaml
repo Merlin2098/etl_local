@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=../esquema-contrato.json
+# Exámenes médicos de salida (Plan 8; en el legacy, «exámenes de retiro»). Formato: ADR-0003.
+# Reglas: docs/logica-negocio/examen-retiro.md. El nombre del archivo es libre (ER §2.1: sin patrón).
+version: 1
+fuente: examenes_salida
+titulo: Exámenes médicos de salida
+
+archivo:
+  extensiones: [xlsx, xlsm, xls]
+
+hojas:
+  - nombre: DATA
+    cabecera: A3
+    columnas:
+      - { nombre: nombre_completo, origen: ['NOMBRE'], tipo: texto, requerida: true }
+      - { nombre: numero_documento, origen: ['DNI'], tipo: documento, requerida: true, clave: true }
+      - nombre: fecha_salida
+        origen: ['FECHA DE CESE']
+        tipo: fecha
+        requerida: true
+        formatos: [excel, DD/MM/AAAA]
+      - { nombre: motivo_salida, origen: ['CAUSA DE SALIDA'], tipo: texto }
+      - { nombre: cargo, origen: ['CARGO'], tipo: texto }
+      # La columna se llama «NOMBRE DE CC» pero trae el código del centro de costo (ER-JOIN-03).
+      - { nombre: centro_costo, origen: ['NOMBRE DE CC'], tipo: texto }

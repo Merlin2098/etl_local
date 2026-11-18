@@ -1,0 +1,20 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "principal",
+  "description": "Ventana principal: comandos propios y diálogo para elegir archivos. Solo esta ventana recibe los comandos de la app (Plan 7: la ventana del tablero no tiene capacidades).",
+  "windows": [
+    "principal"
+  ],
+  "permissions": [
+    "core:default",
+    "dialog:allow-open",
+    "allow-inicio",
+    "allow-reconocer",
+    "allow-complemento-guardado",
+    "allow-revisar",
+    "allow-procesar",
+    "allow-detener",
+    "allow-abrir",
+    "allow-abrir-tablero"
+  ]
+}

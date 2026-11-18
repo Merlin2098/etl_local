@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-complemento-guardado"
+description = "Enables the complemento_guardado command without any pre-configured scope."
+commands.allow = ["complemento_guardado"]
+
+[[permission]]
+identifier = "deny-complemento-guardado"
+description = "Denies the complemento_guardado command without any pre-configured scope."
+commands.deny = ["complemento_guardado"]

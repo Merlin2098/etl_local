@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-inicio"
+description = "Enables the inicio command without any pre-configured scope."
+commands.allow = ["inicio"]
+
+[[permission]]
+identifier = "deny-inicio"
+description = "Denies the inicio command without any pre-configured scope."
+commands.deny = ["inicio"]

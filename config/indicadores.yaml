@@ -1,0 +1,84 @@
+# Catálogo de indicadores del tablero (indicadores-tablero.md §2–§4; Plan 5, decisión 1).
+# Solo metadatos: las fórmulas viven en config/sql/indicadores/. Deben estar IND-01…IND-08, en orden.
+# unidad: personas | fraccion (0.0073 = 0,73 %) | horas. mejor_si: baja | sube | neutro (§4).
+# fuente: contrato de donde salen los datos (planilla | base_personal). reglas: IDs de docs/logica-negocio/ (TR-D17).
+# etiquetas: texto de la UI para cada parte del desglose; sin etiqueta, se muestra la categoría tal cual.
+version: 1
+indicadores:
+  - id: IND-01
+    nombre: Personas en planilla
+    pregunta: ¿A cuántas personas pagamos este mes?
+    unidad: personas
+    mejor_si: neutro
+    fuente: planilla
+    reglas: [IND-01]
+  - id: IND-02
+    nombre: Entradas
+    pregunta: ¿Cuántas personas entraron?
+    unidad: personas
+    mejor_si: neutro
+    fuente: planilla
+    reglas: [IND-02]
+  - id: IND-03
+    nombre: Salidas
+    pregunta: ¿Cuántas personas se fueron?
+    unidad: personas
+    mejor_si: neutro
+    fuente: planilla
+    reglas: [IND-03]
+  - id: IND-04
+    nombre: Rotación del mes
+    pregunta: ¿Qué parte del personal perdimos?
+    unidad: fraccion
+    mejor_si: baja
+    fuente: planilla
+    reglas: [IND-04, IND-01, IND-03]
+  - id: IND-05
+    nombre: Ausentismo
+    pregunta: ¿Qué parte del tiempo programado se perdió?
+    unidad: fraccion
+    mejor_si: baja
+    fuente: planilla
+    reglas: [IND-05, IND-01, NOM-GLD-06]
+    etiquetas:
+      dias_descanso_medico: Descanso médico
+      dias_licencia_con_goce: Licencia con goce de sueldo
+      dias_licencia_sin_goce: Licencia sin goce de sueldo
+      dias_licencia_paternidad: Licencia por paternidad
+      dias_subsidio_enfermedad: Subsidio por enfermedad
+      dias_subsidio_maternidad: Subsidio por maternidad
+      dias_subsidio_otros: Otros subsidios
+  - id: IND-06
+    nombre: Horas extra por persona
+    pregunta: ¿Cuántas horas extra hace cada persona, en promedio?
+    unidad: horas
+    mejor_si: baja
+    fuente: planilla
+    reglas: [IND-06, IND-01]
+    etiquetas:
+      horas_extra_25: Horas extra al 25 %
+      horas_extra_35: Horas extra al 35 %
+      horas_extra_50: Horas extra al 50 %
+      horas_extra_100: Horas extra al 100 %
+  - id: IND-07
+    nombre: Contratos por superar su plazo
+    pregunta: ¿Qué contratos temporales están por superar su plazo máximo?
+    unidad: personas
+    mejor_si: baja
+    fuente: base_personal
+    reglas: [IND-07, BD-FLG-08, BD-FLG-09, TR-D24]
+    etiquetas:
+      alerta_contrato_obra: Por obra o servicio específico
+      alerta_contrato_incremento: Por incremento de actividad
+  - id: IND-08
+    nombre: Edad de jubilación
+    pregunta: ¿Quién llega a 65 o 70 este año o el próximo?
+    unidad: personas
+    mejor_si: neutro
+    fuente: base_personal
+    reglas: [IND-08, BD-FLG-05, BD-FLG-06, BD-FLG-07, TR-D15]
+    etiquetas:
+      cumple_65_este_anio: Cumple 65 este año
+      cumple_65_proximo_anio: Cumple 65 el próximo año
+      cumple_70_este_anio: Cumple 70 este año
+      cumple_70_proximo_anio: Cumple 70 el próximo año

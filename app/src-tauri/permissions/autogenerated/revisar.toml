@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-revisar"
+description = "Enables the revisar command without any pre-configured scope."
+commands.allow = ["revisar"]
+
+[[permission]]
+identifier = "deny-revisar"
+description = "Denies the revisar command without any pre-configured scope."
+commands.deny = ["revisar"]

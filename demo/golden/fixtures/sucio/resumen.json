@@ -1,0 +1,324 @@
+{
+  "archivos": {
+    "base_personal_empleados_flags": {
+      "columnas": [
+        "NUMERO DE DOC",
+        "CODIGO SAP2",
+        "NOMBRE COMPLETOS",
+        "GERENCIA",
+        "SEXO",
+        "SEDE3",
+        "WHITE COLLAR / BLUE COLLAR",
+        "Modalidad de Contrato",
+        "Fecha de Termino",
+        "SERVICIO",
+        "REGIMEN DE TRABAJO",
+        "FECH_INGR.",
+        "FECHA DE NAC.",
+        "FECHA_DOCUMENTO",
+        "tiempo_servicio_texto",
+        "cumple_65_esteaño",
+        "cumple_65_proximoaño",
+        "cumple_70_esteaño",
+        "cumple_70_proximoaño",
+        "alerta_contrato_obra",
+        "alerta_contrato_incremento"
+      ],
+      "filas": 1224
+    },
+    "base_personal_empleados_gold": {
+      "columnas": [
+        "NUMERO DE DOC",
+        "CODIGO SAP2",
+        "NOMBRE COMPLETOS",
+        "GERENCIA",
+        "SEXO",
+        "SEDE3",
+        "WHITE COLLAR / BLUE COLLAR",
+        "Modalidad de Contrato",
+        "Fecha de Termino",
+        "SERVICIO",
+        "REGIMEN DE TRABAJO",
+        "FECH_INGR.",
+        "FECHA DE NAC.",
+        "FECHA_DOCUMENTO"
+      ],
+      "filas": 1224
+    },
+    "base_personal_practicantes_gold": {
+      "columnas": [
+        "NUMERO DE DOC",
+        "CODIGO SAP2",
+        "NOMBRE COMPLETOS",
+        "GERENCIA",
+        "SEXO",
+        "SEDE3",
+        "WHITE COLLAR / BLUE COLLAR",
+        "Modalidad de Contrato",
+        "Fecha de Termino",
+        "SERVICIO",
+        "REGIMEN DE TRABAJO",
+        "FECH_INGR.",
+        "FECHA DE NAC.",
+        "FECHA_DOCUMENTO"
+      ],
+      "filas": 60
+    },
+    "base_personal_silver": {
+      "columnas": [
+        "NUMERO DE DOC",
+        "CODIGO SAP2",
+        "NOMBRE COMPLETOS",
+        "GERENCIA",
+        "SEXO",
+        "SEDE3",
+        "WHITE COLLAR / BLUE COLLAR",
+        "Modalidad de Contrato",
+        "Fecha de Termino",
+        "SERVICIO",
+        "REGIMEN DE TRABAJO",
+        "FECH_INGR.",
+        "FECHA DE NAC.",
+        "CC",
+        "NOMBRE CC",
+        "CATEGORIA CC",
+        "FECHA_DOCUMENTO"
+      ],
+      "filas": 1284
+    },
+    "centros_costo": {
+      "columnas": [
+        "CC",
+        "NOMBRE CC",
+        "CATEGORIA CC",
+        "GERENCIA"
+      ],
+      "filas": 14
+    },
+    "licencias_silver": {
+      "columnas": [
+        "PERIODO",
+        "DNI/CEX",
+        "APELLIDO PATERNO",
+        "APELLIDO MATERNO",
+        "NOMBRES",
+        "MOTIVO",
+        "TIPO_LICENCIA"
+      ],
+      "filas": 266
+    },
+    "planilla_bi_con_licencias": {
+      "columnas": [
+        "PERIODO",
+        "AÑO",
+        "MES",
+        "NOMBRE_MES",
+        "CÓDIGO CORPORATIVO",
+        "APELLIDO PATERNO",
+        "APELLIDO MATERNO",
+        "NOMBRES",
+        "TIPO DE DOCUMENTO",
+        "DNI/CEX",
+        "SEXO",
+        "F. NACIMIENTO",
+        "ÁREA",
+        "CENTRO DE COSTOS",
+        "FECHA DE INGRESO",
+        "FECHA CESE",
+        "MOTIVO CESE",
+        "DIAS GOCE HABER(D)",
+        "# HRS EXTRAS SIMP.25%",
+        "# HRS EXTRAS SIMP.35%",
+        "#HRS EXTRAS DOBLES",
+        "#HRS SIMP.50%",
+        "HRS SIMPLES AL 50%",
+        "HORAS EXTRAS 25%",
+        "HORAS EXTRAS 35%",
+        "HORAS EXTRAS 100%",
+        "LICENCIA GOCE HABER",
+        "LICENCIA PATERNIDAD",
+        "DIAS DIST.LIC.S.GH",
+        "DIAS LIC. PATE (P)",
+        "DIAS DESC MEDICO (P)",
+        "DESCANSO MEDICO",
+        "DIAS SUBSIDIO ENFERMEDAD",
+        "DIAS SUB. MATERNIDAD",
+        "DIAS SUBSIDIOS TOTAL",
+        "SUBS. POR ENFERMEDAD",
+        "SUBS. POR ACCIDENTE",
+        "SUBSIDIO MATERNIDAD",
+        "SUBSIDIOS TOTAL",
+        "MOTIVO_CON_GOCE",
+        "MOTIVO_SIN_GOCE"
+      ],
+      "filas": 3682
+    },
+    "planilla_gold": {
+      "columnas": [
+        "PERIODO",
+        "AÑO",
+        "MES",
+        "NOMBRE_MES",
+        "CÓDIGO CORPORATIVO",
+        "APELLIDO PATERNO",
+        "APELLIDO MATERNO",
+        "NOMBRES",
+        "TIPO DE DOCUMENTO",
+        "DNI/CEX",
+        "SEXO",
+        "F. NACIMIENTO",
+        "ÁREA",
+        "CENTRO DE COSTOS",
+        "FECHA DE INGRESO",
+        "FECHA CESE",
+        "MOTIVO CESE",
+        "DIAS GOCE HABER(D)",
+        "# HRS EXTRAS SIMP.25%",
+        "# HRS EXTRAS SIMP.35%",
+        "#HRS EXTRAS DOBLES",
+        "#HRS SIMP.50%",
+        "HRS SIMPLES AL 50%",
+        "HORAS EXTRAS 25%",
+        "HORAS EXTRAS 35%",
+        "HORAS EXTRAS 100%",
+        "LICENCIA GOCE HABER",
+        "LICENCIA PATERNIDAD",
+        "DIAS DIST.LIC.S.GH",
+        "DIAS LIC. PATE (P)",
+        "DIAS DESC MEDICO (P)",
+        "DESCANSO MEDICO",
+        "DIAS SUBSIDIO ENFERMEDAD",
+        "DIAS SUB. MATERNIDAD",
+        "DIAS SUBSIDIOS TOTAL",
+        "SUBS. POR ENFERMEDAD",
+        "SUBS. POR ACCIDENTE",
+        "SUBSIDIO MATERNIDAD",
+        "SUBSIDIOS TOTAL",
+        "MOTIVO_CON_GOCE",
+        "MOTIVO_SIN_GOCE"
+      ],
+      "filas": 3682
+    },
+    "planilla_silver": {
+      "columnas": [
+        "PERIODO",
+        "AÑO",
+        "MES",
+        "CÓDIGO CORPORATIVO",
+        "APELLIDO PATERNO",
+        "APELLIDO MATERNO",
+        "NOMBRES",
+        "TIPO DE DOCUMENTO",
+        "DNI/CEX",
+        "SEXO",
+        "F. NACIMIENTO",
+        "ÁREA",
+        "CENTRO DE COSTOS",
+        "FECHA DE INGRESO",
+        "FECHA CESE",
+        "MOTIVO CESE",
+        "DIAS SUBSIDIO ENFERMEDAD",
+        "DIAS GOCE HABER(D)",
+        "# HRS EXTRAS SIMP.25%",
+        "# HRS EXTRAS SIMP.35%",
+        "#HRS EXTRAS DOBLES",
+        "#HRS SIMP.50%",
+        "HRS SIMPLES AL 50%",
+        "HORAS EXTRAS 25%",
+        "HORAS EXTRAS 35%",
+        "HORAS EXTRAS 100%",
+        "LICENCIA GOCE HABER",
+        "LICENCIA PATERNIDAD",
+        "DIAS DIST.LIC.S.GH",
+        "DIAS LIC. PATE (P)",
+        "DIAS DESC MEDICO (P)",
+        "DESCANSO MEDICO",
+        "SUBS. POR ENFERMEDAD",
+        "SUBS. POR ACCIDENTE",
+        "SUBSIDIO MATERNIDAD",
+        "DIAS SUB. MATERNIDAD"
+      ],
+      "filas": 3682
+    }
+  },
+  "comparacion_manifiesto": {
+    "alertas_contrato_incremento": {
+      "coincide": true,
+      "esperado": 7,
+      "legacy": 7
+    },
+    "alertas_contrato_obra": {
+      "coincide": false,
+      "esperado": 11,
+      "legacy": 10
+    },
+    "alertas_jubilacion": {
+      "coincide": false,
+      "esperado": {
+        "65": 9,
+        "70": 4
+      },
+      "legacy": {
+        "65": 3,
+        "70": 2
+      },
+      "nota": "El legacy calcula la edad con CURRENT_DATE (TR-57), no con la fecha de corte; el resultado depende de fecha_ejecucion."
+    },
+    "dias_licencia_con_goce": {
+      "coincide": true,
+      "esperado": 389,
+      "legacy": 389
+    },
+    "empleados": {
+      "coincide": true,
+      "esperado": 1224,
+      "legacy": 1224
+    },
+    "filas_planilla_por_periodo": {
+      "coincide": true,
+      "esperado": {
+        "2025-09": 1226,
+        "2025-10": 1224,
+        "2025-11": 1232
+      },
+      "legacy": {
+        "2025-09": 1226,
+        "2025-10": 1224,
+        "2025-11": 1232
+      }
+    },
+    "practicantes": {
+      "coincide": true,
+      "esperado": 60,
+      "legacy": 60
+    }
+  },
+  "dependencias_de_fecha": {
+    "base_personal_empleados_flags": [
+      "cumple_65_*",
+      "cumple_70_*",
+      "tiempo_servicio_texto"
+    ],
+    "nota": "Estas columnas usan CURRENT_DATE en el legacy (TR-57). tiempo_servicio_texto cambia cada mes para contratos sin fecha de término; las alertas de edad cambian cada año. Para comparar, usar fecha_ejecucion como CURRENT_DATE."
+  },
+  "dominios": [
+    {
+      "dominio": "planilla",
+      "error": null,
+      "exito": true
+    },
+    {
+      "dominio": "base_personal",
+      "error": null,
+      "exito": true
+    }
+  ],
+  "fecha_ejecucion": "2026-11-16",
+  "modo": "sucio",
+  "semilla": 42,
+  "versiones": {
+    "duckdb": "1.5.2",
+    "polars": "1.40.1",
+    "python": "3.12.14"
+  }
+}

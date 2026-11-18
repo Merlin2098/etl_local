@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=../esquema-contrato.json
+# Control de licencias con y sin goce. Formato: ADR-0003. Reglas: docs/logica-negocio/licencias.md.
+version: 1
+fuente: licencias
+titulo: Control de licencias
+
+archivo:
+  extensiones: [xlsx, xlsm, xls]
+
+hojas:
+  - nombre: LICENCIA CON GOCE
+    cabecera: A2
+    columnas:
+      - { nombre: numero_documento, origen: ['DNI/CEX'], tipo: documento, requerida: true, clave: true }
+      - { nombre: periodo, origen: ['PERIODO'], tipo: periodo, requerida: true }
+      - { nombre: apellido_paterno, origen: ['APELLIDO PATERNO'], tipo: texto, requerida: true }
+      - { nombre: apellido_materno, origen: ['APELLIDO MATERNO'], tipo: texto, requerida: true }
+      - { nombre: nombres, origen: ['NOMBRES'], tipo: texto, requerida: true }
+      - { nombre: motivo_licencia, origen: ['MOTIVO DE LIC.CON GOCE'], tipo: texto, requerida: true }
+  - nombre: LICENCIA SIN GOCE
+    cabecera: A2
+    columnas:
+      - { nombre: numero_documento, origen: ['DNI/CEX'], tipo: documento, requerida: true, clave: true }
+      - { nombre: periodo, origen: ['PERIODO'], tipo: periodo, requerida: true }
+      - { nombre: apellido_paterno, origen: ['APELLIDO PATERNO'], tipo: texto, requerida: true }
+      - { nombre: apellido_materno, origen: ['APELLIDO MATERNO'], tipo: texto, requerida: true }
+      - { nombre: nombres, origen: ['NOMBRES'], tipo: texto, requerida: true }
+      - { nombre: motivo_licencia, origen: ['MOTIVO DE LIC.S.G.H'], tipo: texto, requerida: true }

@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=../esquema-contrato.json
+# Control de practicantes (Plan 8). Formato: ADR-0003. Reglas: docs/logica-negocio/control-practicantes.md.
+# N° y APELLIDOS Y NOMBRES no se leen: ningún cálculo los usa (CP §9.7).
+version: 1
+fuente: practicantes
+titulo: Control de practicantes
+
+archivo:
+  extensiones: [xlsx, xlsm, xls]
+  # BD Practicantes DD.MM.AAAA.xlsx; la fecha es la fecha de corte del control (CP-BRZ-13).
+  patron_nombre: '(?i)BD Practicantes\s+(?P<fecha>\d{2}\.\d{2}\.\d{4})\.(xlsx|xlsm|xls)'
+  fecha_en_nombre: { grupo: fecha, formato: DD.MM.AAAA }
+
+hojas:
+  - nombre: Practicantes
+    cabecera: A4
+    columnas:
+      - { nombre: numero_documento, origen: ['DNI'], tipo: documento, requerida: true, clave: true }
+      - { nombre: condicion, origen: ['CONDICION'], tipo: texto, requerida: true }
+      - nombre: fecha_entrada
+        origen: ['FECHA ING']
+        tipo: fecha
+        requerida: true
+        formatos: [excel, DD/MM/AAAA]
+      - nombre: fecha_renovacion
+        origen: ['F. RENOVACION']
+        tipo: fecha
+        requerida: true
+        formatos: [excel, DD/MM/AAAA]
+      - { nombre: sede, origen: ['SEDE'], tipo: texto, requerida: true }
+      - { nombre: universidad, origen: ['UNIVERSIDAD'], tipo: texto, requerida: true }
+      - { nombre: jefe_inmediato, origen: ['JEFE INMEDIATO'], tipo: texto, requerida: true }
+      - { nombre: gerencia, origen: ['GERENCIA'], tipo: texto, requerida: true }

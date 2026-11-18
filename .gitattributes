@@ -1,0 +1,15 @@
+# Saltos de línea LF en todo el repositorio, también al hacer checkout en Windows (CI incluido):
+# los tests comparan archivos generados (esquemas, golden) byte a byte.
+* text=auto eol=lf
+
+# Binarios: nunca se convierten ni se comparan como texto.
+*.xlsx binary
+*.xlsm binary
+*.xls binary
+*.parquet binary
+*.png binary
+*.ico binary
+*.icns binary
+*.woff binary
+*.woff2 binary
+*.pdf binary

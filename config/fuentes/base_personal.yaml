@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=../esquema-contrato.json
+# Base de personal (empleados y practicantes). Formato: ADR-0003. Reglas: docs/logica-negocio/bd.md.
+version: 1
+fuente: base_personal
+titulo: Base de personal
+
+archivo:
+  extensiones: [xlsx, xlsm, xls]
+  # BD. DD.MM.AAAA..xlsx (BD-BRZ-02); la fecha es la fecha de corte de los datos (BD-BRZ-03, TR-D3).
+  patron_nombre: '(?i)BD\.\s*(?P<fecha>\d{2}\.\d{2}\.\d{4})\.\.(xlsx|xlsm|xls)'
+  fecha_en_nombre: { grupo: fecha, formato: DD.MM.AAAA }
+
+hojas:
+  # Nombre de hoja del layout demo. Cada empresa pone aquí el nombre de su propia hoja.
+  - nombre: Personal
+    cabecera: A10
+    columnas:
+      - nombre: numero_documento
+        origen: ['NUMERO DE DOC']
+        tipo: documento
+        requerida: true
+        nula: false
+        clave: true
+      - { nombre: codigo_empleado, origen: ['CODIGO SAP2'], tipo: texto, requerida: true }
+      - { nombre: nombre_completo, origen: ['NOMBRE COMPLETOS'], tipo: texto, requerida: true }
+      - { nombre: gerencia, origen: ['GERENCIA'], tipo: texto, requerida: true }
+      - { nombre: sexo, origen: ['SEXO'], tipo: texto, requerida: true, valores: [M, F] }
+      - { nombre: sede, origen: ['SEDE3'], tipo: texto, requerida: true }
+      - { nombre: tipo_trabajador, origen: ['WHITE COLLAR / BLUE COLLAR'], tipo: texto, requerida: true }
+      - { nombre: modalidad_contrato, origen: ['Modalidad de Contrato'], tipo: texto, requerida: true }
+      - nombre: fecha_fin_contrato
+        origen: ['Fecha de Termino']
+        tipo: fecha
+        requerida: true
+        formatos: [excel, DD/MM/AAAA]
+      - { nombre: servicio, origen: ['SERVICIO'], tipo: texto, requerida: true }
+      - { nombre: regimen_trabajo, origen: ['REGIMEN DE TRABAJO'], tipo: texto, requerida: true }
+      - nombre: fecha_entrada
+        origen: ['FECH_INGR.']
+        tipo: fecha
+        requerida: true
+        formatos: [excel, DD/MM/AAAA]
+      - nombre: fecha_nacimiento
+        origen: ['FECHA DE NAC.']
+        tipo: fecha
+        requerida: true
+        formatos: [excel, DD/MM/AAAA]
+      - { nombre: centro_costo, origen: ['CC'], tipo: texto }
+      - { nombre: nombre_centro_costo, origen: ['NOMBRE CC'], tipo: texto }
+      - { nombre: categoria_centro_costo, origen: ['CATEGORIA CC'], tipo: texto }

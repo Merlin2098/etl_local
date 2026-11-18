@@ -1,0 +1,6 @@
+{
+  "caso": "CASO-10",
+  "regla": "ER-BRZ-01: falta la columna obligatoria FECHA DE CESE en los exámenes de salida",
+  "hoja": "DATA",
+  "celda": "fila 3"
+}

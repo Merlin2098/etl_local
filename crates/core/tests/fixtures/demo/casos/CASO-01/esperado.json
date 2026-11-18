@@ -1,0 +1,6 @@
+{
+  "caso": "CASO-01",
+  "regla": "NOM-BRZ-13 / TR-D13: la cabecera debe empezar en A6",
+  "hoja": "Planilla",
+  "celda": "A6"
+}

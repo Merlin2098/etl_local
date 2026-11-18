@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-reconocer"
+description = "Enables the reconocer command without any pre-configured scope."
+commands.allow = ["reconocer"]
+
+[[permission]]
+identifier = "deny-reconocer"
+description = "Denies the reconocer command without any pre-configured scope."
+commands.deny = ["reconocer"]

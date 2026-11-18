@@ -1,0 +1,7 @@
+{
+  "caso": "CASO-06",
+  "errores": [
+    "CONTROL DE LICENCIAS.xlsx: Missing sheet 'LICENCIA SIN GOCE'"
+  ],
+  "etl": "licencias"
+}

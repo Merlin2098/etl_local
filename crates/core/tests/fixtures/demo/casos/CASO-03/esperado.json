@@ -1,0 +1,6 @@
+{
+  "caso": "CASO-03",
+  "regla": "NOM-BRZ-13: falta la columna obligatoria DNI/CEX",
+  "hoja": "Planilla",
+  "celda": "fila 6"
+}

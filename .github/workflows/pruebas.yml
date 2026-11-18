@@ -1,0 +1,57 @@
+# Pruebas en cada push a main y en cada PR (Plan 9). Corre en Windows, igual que el release.
+# Los tests de paridad con el legacy se saltan solos: el legacy no se publica.
+name: Pruebas
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pruebas-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pruebas:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: dtolnay/rust-toolchain@39008827e6b4319a349e9a42dfc90579dd25f1ca # stable
+        with:
+          toolchain: stable
+          components: clippy, rustfmt
+
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: lts/*
+          cache: npm
+          cache-dependency-path: app/ui/package-lock.json
+
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+
+      # La interfaz va primero: la app Tauri (incluida en --workspace) necesita app/ui/dist para compilar.
+      - name: Interfaz (dependencias, tests, tipos y build)
+        working-directory: app/ui
+        run: |
+          npm ci
+          npm test
+          npm run check
+          npm run build
+
+      - name: Formato Rust
+        run: cargo fmt --all --check
+
+      - name: Lint Rust
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: Tests Rust (motor, API, CLI y app)
+        run: cargo test --workspace
+
+      - name: Tests del generador demo
+        run: uv run --project demo pytest demo/tests -q

@@ -1,0 +1,22 @@
+[package]
+name = "etl-local-api"
+description = "API local de solo lectura para el tablero (ADR-0004)"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[lib]
+name = "etl_local_api"
+
+[dependencies]
+etl-local-core.workspace = true
+axum.workspace = true
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+tower.workspace = true
+http-body-util.workspace = true
+tempfile.workspace = true

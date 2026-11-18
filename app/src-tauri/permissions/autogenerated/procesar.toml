@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-procesar"
+description = "Enables the procesar command without any pre-configured scope."
+commands.allow = ["procesar"]
+
+[[permission]]
+identifier = "deny-procesar"
+description = "Denies the procesar command without any pre-configured scope."
+commands.deny = ["procesar"]

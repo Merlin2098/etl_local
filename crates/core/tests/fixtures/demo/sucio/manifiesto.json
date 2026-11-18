@@ -1,0 +1,106 @@
+{
+  "altas_personal": {
+    "2025-09": {
+      "empleados": 26,
+      "practicantes": 2
+    },
+    "2025-10": {
+      "empleados": 16,
+      "practicantes": 0
+    },
+    "2025-11": {
+      "empleados": 17,
+      "practicantes": 0
+    }
+  },
+  "base_personal": {
+    "casos_contrato_plazo": 18,
+    "casos_jubilacion": 13,
+    "empleados": 1224,
+    "fecha_corte": "2025-11-12",
+    "practicantes": 60
+  },
+  "examenes_salida": {
+    "codigo_no_encontrado": 2,
+    "filas": 47,
+    "ok": 43,
+    "practicantes_excluidos": 3,
+    "sin_codigo": 2
+  },
+  "modo": "sucio",
+  "periodos": {
+    "2025-09": {
+      "dias_ausencia": {
+        "dias_descanso_medico": 292,
+        "dias_licencia_con_goce": 149,
+        "dias_licencia_paternidad": 36,
+        "dias_licencia_sin_goce": 71,
+        "dias_subsidio_enfermedad": 176,
+        "dias_subsidio_maternidad": 0
+      },
+      "entradas": 26,
+      "horas_extra": {
+        "horas_extra_100": 892.5,
+        "horas_extra_25": 4468.5,
+        "horas_extra_35": 2681.5,
+        "horas_extra_50": 892.5
+      },
+      "personas_planilla": 1226,
+      "personas_sin_base": 27,
+      "salidas": 18
+    },
+    "2025-10": {
+      "dias_ausencia": {
+        "dias_descanso_medico": 274,
+        "dias_licencia_con_goce": 103,
+        "dias_licencia_paternidad": 24,
+        "dias_licencia_sin_goce": 62,
+        "dias_subsidio_enfermedad": 182,
+        "dias_subsidio_maternidad": 0
+      },
+      "entradas": 16,
+      "horas_extra": {
+        "horas_extra_100": 882.5,
+        "horas_extra_25": 4428.0,
+        "horas_extra_35": 2646.0,
+        "horas_extra_50": 882.5
+      },
+      "personas_planilla": 1224,
+      "personas_sin_base": 9,
+      "salidas": 9
+    },
+    "2025-11": {
+      "dias_ausencia": {
+        "dias_descanso_medico": 312,
+        "dias_licencia_con_goce": 137,
+        "dias_licencia_paternidad": 30,
+        "dias_licencia_sin_goce": 87,
+        "dias_subsidio_enfermedad": 253,
+        "dias_subsidio_maternidad": 90
+      },
+      "entradas": 17,
+      "horas_extra": {
+        "horas_extra_100": 951.5,
+        "horas_extra_25": 4754.0,
+        "horas_extra_35": 2850.5,
+        "horas_extra_50": 951.5
+      },
+      "personas_planilla": 1232,
+      "personas_sin_base": 8,
+      "salidas": 20
+    }
+  },
+  "planilla_regimen_especial": {
+    "2025-09": 40,
+    "2025-10": 40,
+    "2025-11": 40
+  },
+  "practicantes": {
+    "cumplio_1": 13,
+    "filas": 60,
+    "por_cumplir_1": 6,
+    "por_cumplir_2": 5,
+    "sin_renovacion": 2
+  },
+  "semilla": 42
+}

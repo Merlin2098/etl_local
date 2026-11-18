@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=../esquema-contrato.json
+# Planilla del régimen especial (Plan 8). Formato: ADR-0003. Reglas: docs/logica-negocio/nomina-regimen-minero.md.
+# Las columnas que comparte con la planilla estándar llevan sus mismos nombres canónicos y tipos.
+# Los montos (TOTAL INGRESOS, TOTAL DESCUENTOS, TOTAL APORTACIONES, NETO) no se leen (TR-D22).
+version: 1
+fuente: planilla_regimen_especial
+titulo: Planilla régimen especial
+
+archivo:
+  extensiones: [xlsx, xlsm, xls]
+  # El periodo AAAA-MM va en el nombre (RM-BRZ-03); un archivo sin periodo se rechaza (RM-BRZ-04).
+  patron_nombre: '(?i).*Planilla Regimen Especial (?P<periodo>\d{4}-\d{2}).*\.(xlsx|xlsm|xls)'
+  fecha_en_nombre: { grupo: periodo, formato: AAAA-MM }
+
+hojas:
+  - nombre: Planilla
+    cabecera: A6
+    # Fila de totales al final (corrige RM-DIF-01: el legacy no la descartaba).
+    filas_resumen:
+      - totales
+      - total ingresos
+      - subtotal
+    columnas:
+      - { nombre: codigo_empleado, origen: ['CÓDIGO CORPORATIVO'], tipo: texto }
+      - nombre: numero_documento
+        origen: ['DNI/CEX']
+        tipo: documento
+        requerida: true
+        nula: false
+        clave: true
+      - { nombre: sexo, origen: ['SEXO'], tipo: texto, valores: [M, F] }
+      - { nombre: fecha_nacimiento, origen: ['F. NACIMIENTO'], tipo: fecha, formatos: [excel, DD/MM/AAAA] }
+      - { nombre: puesto, origen: ['PUESTO'], tipo: texto }
+      - { nombre: sede, origen: ['SEDE'], tipo: texto }
+      - { nombre: area, origen: ['ÁREA'], tipo: texto }
+      - { nombre: centro_costo, origen: ['CENTRO DE COSTOS'], tipo: texto }
+      - { nombre: nombre_centro_costo, origen: ['DESC. CENTRO DE COSTO'], tipo: texto }
+      - { nombre: fecha_entrada, origen: ['FECHA DE INGRESO'], tipo: fecha, formatos: [excel, DD/MM/AAAA] }
+      - { nombre: dias_trabajados, origen: ['DIAS TRABAJADOS'], tipo: entero, minimo: 0 }
+      - { nombre: dias_descanso_medico, origen: ['DIAS DESC MEDICO (P)'], tipo: entero, minimo: 0 }
+      - { nombre: dias_licencia_con_goce, origen: ['DIAS GOCE HABER(D)'], tipo: entero, minimo: 0 }
+      - { nombre: dias_licencia_sin_goce, origen: ['DIAS DIST.LIC.S.GH'], tipo: entero, minimo: 0 }
+      - { nombre: dias_licencia_paternidad, origen: ['DIAS LIC. PATE (P)'], tipo: entero, minimo: 0 }
+      - { nombre: horas_extra_25, origen: ['# HRS EXTRAS SIMP.25%'], tipo: decimal, minimo: 0 }
+      - { nombre: horas_extra_35, origen: ['# HRS EXTRAS SIMP.35%'], tipo: decimal, minimo: 0 }
+      - { nombre: horas_extra_100, origen: ['#HRS EXTRAS DOBLES'], tipo: decimal, minimo: 0 }

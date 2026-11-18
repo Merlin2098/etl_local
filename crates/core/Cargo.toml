@@ -1,0 +1,27 @@
+[package]
+name = "etl-local-core"
+description = "Motor: contratos de fuente, validación previa y lectura de Excel"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[lib]
+name = "etl_local_core"
+
+[dependencies]
+calamine.workspace = true
+duckdb.workspace = true
+chrono.workspace = true
+serde.workspace = true
+serde-saphyr.workspace = true
+serde_json.workspace = true
+regex.workspace = true
+unicode-normalization.workspace = true
+thiserror.workspace = true
+schemars.workspace = true
+rust_xlsxwriter.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+rust_xlsxwriter.workspace = true

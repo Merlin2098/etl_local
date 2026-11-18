@@ -1,0 +1,6 @@
+{
+  // DuckDB se compila desde C++ y la máquina de desarrollo tiene poca memoria: rust-analyzer no compila el
+  // workspace al guardar (evita un segundo `cargo` en paralelo sobre target/; ver AGENTS.md §6).
+  // Autocompletado y navegación siguen funcionando. Para reactivar: quitar esta línea.
+  "rust-analyzer.checkOnSave": false
+}

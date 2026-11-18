@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-abrir-tablero"
+description = "Enables the abrir_tablero command without any pre-configured scope."
+commands.allow = ["abrir_tablero"]
+
+[[permission]]
+identifier = "deny-abrir-tablero"
+description = "Denies the abrir_tablero command without any pre-configured scope."
+commands.deny = ["abrir_tablero"]

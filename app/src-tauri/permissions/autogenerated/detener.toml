@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-detener"
+description = "Enables the detener command without any pre-configured scope."
+commands.allow = ["detener"]
+
+[[permission]]
+identifier = "deny-detener"
+description = "Denies the detener command without any pre-configured scope."
+commands.deny = ["detener"]

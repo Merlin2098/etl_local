@@ -1,0 +1,6 @@
+{
+  "caso": "CASO-07",
+  "regla": "RM-BRZ-08: falta la columna obligatoria DNI/CEX en la planilla de régimen especial",
+  "hoja": "Planilla",
+  "celda": "fila 6"
+}
