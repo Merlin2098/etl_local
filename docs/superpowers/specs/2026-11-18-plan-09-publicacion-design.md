@@ -2,6 +2,11 @@
 
 > Fecha: 2026-11-18 · Estado: **aprobado** (2026-11-18) · Opción elegida: **A (GitHub Actions con `tauri-apps/tauri-action`)**
 
+> **Cambio de alcance (2026-11-18, decisión del usuario):** no se publican releases. El repositorio es una
+> prueba de concepto: cada developer lo clona, lo compila y genera el ejecutable en su equipo. Se eliminó
+> `release.yml`; queda solo `pruebas.yml`. Lo que este documento dice del release y del instalador en
+> GitHub ya no aplica.
+
 ## 1. Intención
 
 Publicar el proyecto como open source en la cuenta personal de GitHub `merlin2098`, con licencia MIT. Debe

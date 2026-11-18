@@ -17,7 +17,7 @@
 | 6 | [App Tauri: flujo de actualización](2026-11-16-plan-06-app-tauri.md) | Pantallas 1–5 de `docs/diseno/` sobre `crates/core`; entradas guardadas por fuente (actualizar un reporte a la vez) y Excel de revisión en `actual/excel/` | Planes 3–5 | **Completado** (2026-11-17; app de escritorio `npm --prefix app/ui run tauri -- dev`) |
 | 7 | [Tablero](2026-11-17-plan-07-tablero.md) | Pantallas 6–7 de `docs/diseno/` (Resumen, Alertas y «Cómo leer»), resumen en PDF, tablero servido por la API y abierto desde la app | Planes 5–6 | **Completado** (2026-11-17; tablero en la app o con `etl-local tablero`) |
 | 8 | [Dominios restantes](2026-11-17-plan-08-dominios.md) | Planilla régimen especial, altas de personal, practicantes y exámenes médicos de salida con un molde común (contrato + SQL + Excel), sin paridad con el legacy ni cambios en el tablero ([diseño](../specs/2026-11-17-plan-08-dominios-design.md)) | Planes 1–7 | **Completado** (2026-11-18; 4 reportes nuevos en la app con el molde de `config/README.md`) |
-| 9 | [Publicación open source](2026-11-18-plan-09-publicacion.md) | README, empaquetado multiplataforma, revisión de confidencialidad, repo con historial nuevo | Todo lo anterior | Plan escrito (en revisión) |
+| 9 | [Publicación open source](2026-11-18-plan-09-publicacion.md) | README, licencia MIT, CI de pruebas, revisión de confidencialidad, repo con historial nuevo (POC: sin releases; cada developer compila) | Todo lo anterior | Publicado en GitHub; CI en curso |
 
 ## Directrices de compilación para los planes pendientes (6–9)
 

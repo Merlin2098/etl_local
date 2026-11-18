@@ -6,7 +6,9 @@ sucede en tu PC.
 [![Pruebas](https://github.com/Merlin2098/etl_local/actions/workflows/pruebas.yml/badge.svg)](https://github.com/Merlin2098/etl_local/actions/workflows/pruebas.yml)
 [![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-blue.svg)](LICENSE)
 
-**[⬇ Descargar para Windows](https://github.com/Merlin2098/etl_local/releases/latest)**
+> **Prueba de concepto (POC).** El repositorio no publica instaladores ni ejecutables: quien quiera
+> evaluarlo lo clona, lo compila y lo valida en su equipo (ver [Probarlo](#probarlo-con-datos-de-prueba)).
+> CI solo comprueba que el código compile y que las pruebas pasen.
 
 ## El problema
 
@@ -83,25 +85,48 @@ flowchart LR
 | App de escritorio | Tauri 2 (WebView2 en Windows) |
 | Interfaz y tablero | Svelte 5, Vite, TypeScript y ECharts |
 | Datos de ejemplo y pruebas de paridad | Python con uv |
-| CI y releases | GitHub Actions con `tauri-apps/tauri-action` |
+| CI | GitHub Actions: formato, lint y pruebas en Windows |
 
 ## Probarlo con datos de prueba
 
 La app viene configurada para los Excel de ejemplo del repositorio. Con ellos puedes recorrer todo el
 flujo sin tocar datos reales.
 
-### 1. Instalar
+### 1. Clonar y compilar
 
-1. Descarga el instalador (`.msi` o `-setup.exe`) del
-   [último release](https://github.com/Merlin2098/etl_local/releases/latest).
-2. El instalador no está firmado, así que Windows SmartScreen puede mostrar «Windows protegió su PC».
-   Elige **Más información → Ejecutar de todas formas**.
+Necesitas los requisitos de [Para desarrolladores](#para-desarrolladores) (Rust, Build Tools de C++,
+Node.js y uv). La primera compilación tarda bastante, porque compila DuckDB desde C++.
+
+```sh
+git clone https://github.com/Merlin2098/etl_local.git
+cd etl_local
+npm --prefix app/ui ci
+```
+
+Luego elige una de dos formas:
+
+- **Abrir la app sin generar un ejecutable** (la forma más rápida de validarla). Usa la configuración
+  de `config/` del repositorio:
+
+  ```sh
+  npm --prefix app/ui run tauri -- dev
+  ```
+
+- **Generar el ejecutable y el instalador** de Windows:
+
+  ```sh
+  npm --prefix app/ui run tauri -- build
+  ```
+
+  El instalador queda en `target\release\bundle\nsis\` (`-setup.exe`) y en
+  `target\release\bundle\msi\` (`.msi`). Instálalo para probar la app tal como la usaría alguien de
+  RR. HH. Como no está firmado, no conviene distribuirlo fuera del equipo de desarrollo.
 
 ### 2. Conseguir los Excel de ejemplo
 
 Son datos **sintéticos**: personas, documentos y montos inventados. Hay dos formas de tenerlos:
 
-- **Sin instalar nada más:** descarga el repositorio (**Code → Download ZIP**) y usa la carpeta
+- **Los del repositorio:** la carpeta
   [crates/core/tests/fixtures/demo/limpio/](crates/core/tests/fixtures/demo/limpio/). Tiene una carpeta
   por reporte:
 
@@ -204,10 +229,10 @@ Notas de compilación:
 | Tests del motor, la API y el CLI | `cargo test -j 2` |
 | Interfaz: dependencias, tests y build | `npm --prefix app/ui ci` · `npm --prefix app/ui test` · `npm --prefix app/ui run build` |
 | App en desarrollo | `npm --prefix app/ui run tauri -- dev` |
-| Instalador | `npm --prefix app/ui run tauri -- build` |
+| Ejecutable e instalador (en `target\release\bundle\`) | `npm --prefix app/ui run tauri -- build` |
 | Datos de ejemplo y sus tests | `uv run --project demo generar-demo --modo limpio` · `uv run --project demo pytest demo/tests` |
 
-La lista completa de comandos, las reglas del repositorio y cómo se publica un release están en
+La lista completa de comandos y las reglas del repositorio están en
 [AGENTS.md](AGENTS.md). Ese archivo y [CLAUDE.md](CLAUDE.md) se publican a propósito: son el contrato de
 trabajo para personas y agentes de IA.
 
@@ -223,8 +248,10 @@ Otras guías:
   herramienta de BI de escritorio o embebida, en vez del tablero propio.
 - **Una web donde se consuma el tablero**: publicar los indicadores en un servidor del equipo de RR. HH.
   para verlos sin instalar la app, con autenticación.
-- Instaladores para macOS y Linux. Tauri lo permite; falta probarlo en CI.
-- Firma de código del instalador, para que SmartScreen no muestre el aviso.
+- **Releases con instalador**: que CI compile y publique el instalador al etiquetar una versión, para que
+  quien solo quiere probarlo no tenga que compilar. Requiere firma de código, para que Windows
+  SmartScreen no lo bloquee.
+- Instaladores para macOS y Linux. Tauri lo permite; falta probarlo.
 - Llevar al tablero los reportes del molde: régimen especial, altas, practicantes y exámenes de salida.
 
 ## Licencia

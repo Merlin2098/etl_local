@@ -43,7 +43,7 @@ etl_local/
 ├── config/                      # contratos, SQL, parámetros y reportes; un reporte nuevo = contrato + SQL + reportes.yaml (molde, config/README.md)
 ├── demo/                        # Python + uv: datos sintéticos y paridad (ADR-0002)
 ├── scripts/                     # utilidades de desarrollo (revisión de confidencialidad)
-└── .github/workflows/           # CI: pruebas y release del instalador de Windows
+└── .github/workflows/           # CI: pruebas en Windows (sin releases: POC)
 ```
 
 Principio de capas: **`crates/core` no depende de Tauri ni de la UI**. Toda la lógica debe poder
@@ -140,26 +140,19 @@ ejecutarse desde `crates/cli` sin interfaz gráfica.
 | Generar golden de paridad | `uv run --project demo generar-golden --modo limpio` (también `sucio`, `casos`) |
 | Revisión de confidencialidad (nombre del cliente y correos, también dentro de los `.xlsx`) | `uv run --project demo python scripts/revisar_confidencialidad.py` (0 = limpio, 1 = hallazgos, 2 = sin legacy) |
 
-### CI y releases
+### CI y publicación
+
+El repositorio es una **prueba de concepto**: no publica releases, instaladores ni ejecutables. Cada
+developer lo clona, lo compila (`npm --prefix app/ui run tauri -- build`, con el instalador en
+`target/release/bundle/`) y lo valida en su equipo.
 
 - **Pruebas** ([.github/workflows/pruebas.yml](.github/workflows/pruebas.yml)): en cada push a `main` y en
   cada PR, en Windows. Corre fmt, clippy, `cargo test --workspace`, los tests y el build de la interfaz y
   los tests del demo. Los de paridad se saltan, porque el legacy no se publica.
-- **Release** ([.github/workflows/release.yml](.github/workflows/release.yml)): al empujar una etiqueta
-  `v*`, compila el instalador con `tauri-apps/tauri-action` y crea un release **borrador** con el `.msi`
-  y el `-setup.exe`.
 - Las acciones van fijadas por SHA de commit, con la versión en un comentario. Para actualizar una:
   `gh api repos/<dueño>/<acción>/commits/<etiqueta> --jq .sha`.
-
-Pasos para publicar una versión (cada uno con pedido explícito, §7):
-
-1. Subir la versión en `Cargo.toml` (`[workspace.package] version`). La app toma esa versión.
-2. Correr el script de confidencialidad en local, con resultado 0. En CI no se puede correr, porque
-   necesita el legacy.
-3. `git tag vX.Y.Z` y `git push origin vX.Y.Z`. Seguir la ejecución con `gh run watch`.
-4. Descargar los instaladores del borrador (`gh release download vX.Y.Z`) y pasarles el script de
-   confidencialidad.
-5. Publicar el borrador.
+- Antes de cada push corre el script de confidencialidad en local, con resultado 0. En CI no se puede
+  correr, porque necesita el legacy.
 
 Requisitos de desarrollo en Windows: toolchain de Rust (MSVC), Build Tools de Visual Studio (C++),
 WebView2, Node.js y uv.

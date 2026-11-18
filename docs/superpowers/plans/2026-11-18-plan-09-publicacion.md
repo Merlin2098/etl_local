@@ -16,6 +16,11 @@
 
 **Spec:** [docs/superpowers/specs/2026-11-18-plan-09-publicacion-design.md](../specs/2026-11-18-plan-09-publicacion-design.md)
 
+> **Cambio de alcance (2026-11-18, decisión del usuario):** no se publican releases. El repositorio es una
+> prueba de concepto: cada developer lo clona, lo compila y genera el ejecutable en su equipo. Se eliminó
+> `release.yml`; queda solo `pruebas.yml`. Lo que este documento dice del release y del instalador en
+> GitHub ya no aplica.
+
 ## Global Constraints
 
 - Nunca escribir el nombre del cliente en ningún archivo, mensaje de commit ni descripción. Se verifica con `nombres_a_ocultar(ubicar_legacy())` en tiempo de ejecución.
