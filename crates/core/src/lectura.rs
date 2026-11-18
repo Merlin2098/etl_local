@@ -165,7 +165,7 @@ fn miles(n: usize) -> String {
     let digitos = n.to_string();
     let mut salida = String::new();
     for (i, c) in digitos.chars().enumerate() {
-        if i > 0 && (digitos.len() - i) % 3 == 0 {
+        if i > 0 && (digitos.len() - i).is_multiple_of(3) {
             salida.push('.');
         }
         salida.push(c);
