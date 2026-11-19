@@ -43,6 +43,7 @@ etl_local/
 ├── config/                      # contratos, SQL, parámetros y reportes; un reporte nuevo = contrato + SQL + reportes.yaml (molde, config/README.md)
 ├── demo/                        # Python + uv: datos sintéticos y paridad (ADR-0002)
 ├── scripts/                     # utilidades de desarrollo (revisión de confidencialidad)
+├── video/                       # demo en video para el README (datos sintéticos)
 └── .github/workflows/           # CI: pruebas en Windows (sin releases: POC)
 ```
 

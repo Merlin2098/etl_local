@@ -10,6 +10,16 @@ sucede en tu PC.
 > evaluarlo lo clona, lo compila y lo valida en su equipo (ver [Probarlo](#probarlo-con-datos-de-prueba)).
 > CI solo comprueba que el código compile y que las pruebas pasen.
 
+## Demo
+
+Recorrido de 1:49 con datos sintéticos: carga de la base de personal y de tres meses de planilla,
+tablero con indicadores y filtros, un Excel con una columna faltante que la app detecta antes de
+procesar, y el Excel de revisión del control de practicantes.
+
+[![Ver la demo en video](video/portada.jpg)](video/demo_github_rrhh_720p.mp4)
+
+*Pulsa la imagen para abrir el video ([`video/demo_github_rrhh_720p.mp4`](video/demo_github_rrhh_720p.mp4), 2,8 MB).*
+
 ## El problema
 
 En muchas áreas de RR. HH. el cierre de cada mes se arma a mano con varios Excel: la planilla (a veces

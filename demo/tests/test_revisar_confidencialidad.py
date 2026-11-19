@@ -61,3 +61,14 @@ def test_versiones_y_recursos_no_son_correos(tmp_path):
         '"icons/128x128@2x.png",\nnpm view echarts@6.1.0 version\n', encoding="utf-8"
     )
     assert rc.revisar(tmp_path, ["b.json"], [NOMBRE]) == []
+
+
+def test_bytes_comprimidos_con_acentos_no_son_correos(tmp_path):
+    # Dentro de un video, bytes al azar leídos como latin-1 pueden armar algo como «h@sí.ab». Un correo
+    # real es ASCII; un binario con un correo ASCII sigue siendo hallazgo.
+    rc = _modulo()
+    ruido = bytes([0, 1, 2, 3]) * 64
+    (tmp_path / "demo.mp4").write_bytes(ruido + "h@sí.ab".encode("latin-1") + ruido)
+    assert rc.revisar(tmp_path, ["demo.mp4"], [NOMBRE]) == []
+    (tmp_path / "otro.mp4").write_bytes(ruido + b"alguien" + b"@" + b"empresa.pe" + ruido)
+    assert [h.motivo for h in rc.revisar(tmp_path, ["otro.mp4"], [NOMBRE])] == ["correo"]

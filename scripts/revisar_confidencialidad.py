@@ -21,8 +21,9 @@ from pathlib import Path
 from typing import Literal
 
 # El dominio empieza con letra y termina en un TLD alfabético: así `echarts@6.1.0` o `128x128@2x.png`
-# (versiones y recursos) no cuentan como correos.
-CORREO = re.compile(r"[\w.+-]+@[A-Za-z][\w-]*(?:\.[\w-]+)*\.[A-Za-z]{2,}\b")
+# (versiones y recursos) no cuentan como correos. Solo ASCII: dentro de un video o una imagen, bytes al
+# azar leídos como latin-1 arman cosas como «h@sí.ab», que no son correos.
+CORREO = re.compile(r"[\w.+-]+@[A-Za-z][\w-]*(?:\.[\w-]+)*\.[A-Za-z]{2,}\b", re.ASCII)
 CORREOS_PERMITIDOS = (
     re.compile(r".*@users\.noreply\.github\.com", re.IGNORECASE),
     re.compile(r".*@example\.com", re.IGNORECASE),
